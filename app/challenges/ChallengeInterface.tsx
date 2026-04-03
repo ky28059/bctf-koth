@@ -3,14 +3,15 @@
 import { useState } from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
-import 'prismjs/components/prism-python';
 
 // Components
+import LanguageSelector from '@/app/challenges/LanguageSelector';
 import ChallengeScoreboardEntry from '@/app/challenges/ChallengeScoreboardEntry';
 
 
 export default function ChallengeInterface() {
-    const [code, setCode] = useState('');
+    const [code, setCode] = useState(starter);
+    const [language, setLanguage] = useState('haskell');
 
     return (
         <div className="flex gap-8">
@@ -24,10 +25,14 @@ export default function ChallengeInterface() {
                     `stdout`. [...]
                 </p>
 
+                <LanguageSelector
+                    language={language}
+                    setLanguage={setLanguage}
+                />
                 <Editor
                     value={code}
                     onValueChange={(code) => setCode(code)}
-                    highlight={(code) => highlight(code, languages.python, 'python')}
+                    highlight={(code) => highlight(code, languages[language], language)}
                     padding={{
                         top: '0.75rem',
                         bottom: '0.75rem',
@@ -35,10 +40,13 @@ export default function ChallengeInterface() {
                         right: '1.5rem',
                     }}
                     style={{ fontFamily: '"Fira code", "Fira Mono", monospace' }}
-                    className="bg-[#121314] text-[#BBBEBF] border border-tertiary mt-6"
+                    className="bg-[#121314] text-[#BBBEBF] border border-tertiary mt-3"
                 >
                     {code}
                 </Editor>
+                <p className="mt-1 text-sm text-secondary">
+                    {code.length} characters
+                </p>
 
                 <button
                     className="cursor-pointer bg-blue-500 text-white rounded mt-4 px-3 py-1.5"
@@ -62,3 +70,7 @@ export default function ChallengeInterface() {
         </div>
     )
 }
+
+const starter = `main :: IO ()
+main = getLine >>=
+    (\\[a, b, c] -> print $ mod (a ^ b) c) . map (read :: String -> Int) . words`
