@@ -6,6 +6,7 @@ import { highlight, languages } from 'prismjs';
 
 // Components
 import LanguageSelector from '@/app/challenges/LanguageSelector';
+import PreviousSubmissionsTable from '@/app/challenges/PreviousSubmissionsTable';
 import ChallengeScoreboardEntry from '@/app/challenges/ChallengeScoreboardEntry';
 
 
@@ -15,7 +16,7 @@ export default function ChallengeInterface() {
 
     return (
         <div className="flex gap-8">
-            <div>
+            <div className="pb-20">
                 <h1 className="text-3xl font-bold mb-4">
                     Polyglot
                 </h1>
@@ -54,9 +55,14 @@ export default function ChallengeInterface() {
                 >
                     Submit
                 </button>
+
+                <h2 className="font-bold text-xl mt-12 mb-3">
+                    Previous submissions
+                </h2>
+                <PreviousSubmissionsTable />
             </div>
 
-            <aside className="border-l border-tertiary flex-none flex flex-col max-h-screen overflow-y-auto sticky top-0">
+            <aside className="w-64 border-l border-tertiary flex-none flex flex-col max-h-screen overflow-y-auto sticky top-0">
                 {Array(100).fill(0).map((_, i) => (
                     <ChallengeScoreboardEntry
                         rank={i + 1}
