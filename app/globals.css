@@ -40,3 +40,121 @@
     @apply px-8 sm:px-12 lg:px-16 xl:px-20 2xl:px-32;
     margin: 0 auto;
 }
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: #bfbfbf; /* editor.foreground */
+    background: #242526; /* textCodeBlock.background */
+    text-shadow: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 1em;
+    line-height: 1.5;
+    direction: ltr;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    tab-size: 4;
+    hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+    border-radius: 0.3em;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+/* Tokens */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: #8b949e;
+}
+
+.token.punctuation {
+    color: #8b949e;
+}
+
+.token.namespace {
+    opacity: .7;
+}
+
+.token.property {
+    color: #79c0ff; /* meta.property-name */
+}
+
+.token.tag,
+.token.class-name,
+.token.symbol {
+    color: #7ee787; /* entity.name.tag, support.class.component */
+}
+
+.token.boolean,
+.token.number,
+.token.constant {
+    color: #79c0ff; /* constant, entity.name.constant */
+}
+
+.token.selector,
+.token.attr-name,
+.token.builtin {
+    color: #c9d1d9; /* meta.tag.attributes, support */
+}
+
+.token.string,
+.token.char,
+.token.attr-value,
+.token.url {
+    color: #a5d6ff; /* string */
+}
+
+.token.entity {
+    color: #ffa657; /* entity.name */
+}
+
+.token.operator,
+.token.keyword,
+.token.atrule {
+    color: #ff7b72; /* keyword, storage, storage.type */
+}
+
+.token.function {
+    color: #d2a8ff; /* entity.name.function */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #ffa657; /* variable */
+}
+
+.token.parameter {
+    color: #c9d1d9; /* variable.parameter.function */
+}
+
+.token.deleted {
+    color: #ffa198;
+    background-color: #490202; /* markup.deleted */
+}
+
+.token.inserted {
+    color: #7ee787;
+    background-color: #04260f; /* markup.inserted */
+}
+
+.token.bold {
+    font-weight: bold;
+}
+
+.token.italic {
+    font-style: italic;
+}
