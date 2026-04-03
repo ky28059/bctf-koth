@@ -1,1 +1,42 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@custom-variant slider-thumb (&::-webkit-slider-thumb);
+@custom-variant scrollbar (&::-webkit-scrollbar);
+@custom-variant scrollbar-thumb (&::-webkit-scrollbar-thumb);
+
+@theme inline {
+    /*--font-jetbrains: var(--font-jetbrains-mono);*/
+
+    --color-primary: var(--primary);
+    --color-secondary: var(--secondary);
+    --color-tertiary: var(--tertiary);
+
+    --color-midnight: #1b1b1b;
+    --color-dark: #26252c;
+    --color-light: #fff8e8;
+    --color-grapefruit: #ff6347;
+    --color-pomegranate: #e03c31;
+}
+
+@layer base {
+    :root {
+        --primary: #656565;
+        --secondary: #757575;
+        --tertiary: #d1d5db;
+    }
+
+    :root.dark {
+        color-scheme: dark;
+
+        --primary: #BABABA;
+        --secondary: #777777;
+        --tertiary: #404040;
+    }
+}
+
+@utility container {
+    @apply px-8 sm:px-12 lg:px-16 xl:px-20 2xl:px-32;
+    margin: 0 auto;
+}

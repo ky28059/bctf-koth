@@ -1,6 +1,6 @@
 export default function Home() {
     return (
-        <div>
+        <div className="container pt-16 pb-24">
             hiii
         </div>
     );
