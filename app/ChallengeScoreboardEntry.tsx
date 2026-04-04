@@ -1,3 +1,6 @@
+import { suffix } from '@/util/strings';
+
+
 type ChallengeScoreboardEntryProps = {
     rank: number,
     avatarUrl: string,
@@ -8,7 +11,10 @@ type ChallengeScoreboardEntryProps = {
 export default function ChallengeScoreboardEntry(props: ChallengeScoreboardEntryProps) {
     return (
         <a className="flex gap-2 items-center px-4 py-0.5 hover:bg-white/10 transition duration-100">
-            <p className="text-primary text-sm w-9">{props.rank}st</p>
+            <p className="text-primary text-sm w-8 text-right pr-0.5">
+                {props.rank}
+                <sup>{suffix(props.rank)}</sup>
+            </p>
             <img
                 className="size-8 rounded-full"
                 src={props.avatarUrl}
