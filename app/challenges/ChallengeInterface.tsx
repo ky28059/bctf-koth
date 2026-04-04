@@ -7,7 +7,7 @@ import { highlight, languages } from 'prismjs';
 // Components
 import LanguageSelector from '@/app/challenges/LanguageSelector';
 import PreviousSubmissionsTable from '@/app/challenges/PreviousSubmissionsTable';
-import ChallengeScoreboardEntry from '@/app/challenges/ChallengeScoreboardEntry';
+import ChallengeScoreboard from '@/app/ChallengeScoreboard';
 
 
 type ChallengeInterfaceProps = {
@@ -63,17 +63,7 @@ export default function ChallengeInterface(props: ChallengeInterfaceProps) {
                 <PreviousSubmissionsTable />
             </div>
 
-            <aside className="w-64 border-l border-tertiary flex-none flex flex-col max-h-screen overflow-y-auto sticky top-0">
-                {Array(100).fill(0).map((_, i) => (
-                    <ChallengeScoreboardEntry
-                        rank={i + 1}
-                        avatarUrl="/assets/b01lers.png"
-                        name="b01lers"
-                        score={15}
-                        key={i}
-                    />
-                ))}
-            </aside>
+            <ChallengeScoreboard className="w-64 border-l border-tertiary flex-none max-h-screen overflow-y-auto sticky top-0" />
         </div>
     )
 }
