@@ -10,7 +10,12 @@ import PreviousSubmissionsTable from '@/app/challenges/PreviousSubmissionsTable'
 import ChallengeScoreboardEntry from '@/app/challenges/ChallengeScoreboardEntry';
 
 
-export default function ChallengeInterface() {
+type ChallengeInterfaceProps = {
+    name: string,
+    description: string,
+}
+
+export default function ChallengeInterface(props: ChallengeInterfaceProps) {
     const [code, setCode] = useState(starter);
     const [language, setLanguage] = useState('haskell');
 
@@ -18,13 +23,9 @@ export default function ChallengeInterface() {
         <div className="flex gap-8">
             <div className="pb-20">
                 <h1 className="text-3xl font-bold mb-4">
-                    Polyglot
+                    {props.name}
                 </h1>
-                <p>
-                    Write a polyglot that compiles / runs in as many of the following languages as possible:
-                    [...]. In each language, your code should read 3 values a, b, and c from `stdin` then output `a^b%c` to
-                    `stdout`. [...]
-                </p>
+                <p>{props.description}</p>
 
                 <LanguageSelector
                     language={language}
@@ -41,7 +42,7 @@ export default function ChallengeInterface() {
                         right: '1.5rem',
                     }}
                     style={{ fontFamily: '"Fira code", "Fira Mono", monospace' }}
-                    className="bg-[#121314] text-[#BBBEBF] border border-tertiary mt-3"
+                    className="bg-[#121314] text-[#BBBEBF] border border-tertiary mt-3 shadow-xl"
                 >
                     {code}
                 </Editor>

@@ -13,7 +13,14 @@ export default function PreviousSubmissionsTable() {
             {Array(22).fill(0).map((_, i) => (
                 <tr key={i} className="bg-black/10">
                     <td className="text-secondary text-right px-2">{i + 1}</td>
-                    <td className="px-2 py-0.5">aef97236</td>
+                    <td className="px-2 py-0.5">
+                        <a
+                            href={`/submission/aef97236`}
+                            className="text-blue-400 hover:underline"
+                        >
+                            aef97236
+                        </a>
+                    </td>
                     <td className="px-2">235</td>
                     <td className="px-2">16/20</td>
                 </tr>

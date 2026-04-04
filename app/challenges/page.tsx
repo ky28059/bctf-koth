@@ -1,10 +1,10 @@
-import ChallengeInterface from '@/app/challenges/ChallengeInterface';
+import ChallengesContent from '@/app/challenges/ChallengesContent';
 
 
-export default function Home() {
+export default function Challenges() {
     return (
         <div className="container pt-16">
-            <ChallengeInterface />
+            <ChallengesContent />
         </div>
     );
 }
