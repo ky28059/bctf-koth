@@ -19,7 +19,15 @@ and the frontend with
 ```bash
 npm run dev
 ```
-As a database, this project uses the Prisma ORM on top of Postgres. The database schema is stored in `/prisma/schema.prisma`; use
+
+### Managing the database
+As a database, this project uses the Prisma ORM on top of Postgres. After creating a database, run
+```bash
+npx prisma db seed
+```
+to seed it with default values.
+
+The database schema is stored in `/prisma/schema.prisma`; use
 ```bash
 npx prisma migrate dev
 ```

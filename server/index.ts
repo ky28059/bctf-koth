@@ -1,8 +1,12 @@
 import Fastify from 'fastify';
+import submit from './submit';
+
 
 const app = Fastify({
     logger: true
 });
+
+app.register(submit);
 
 app.get('/', async (req, res) => {
     console.log('hi');
