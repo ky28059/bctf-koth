@@ -16,7 +16,7 @@ import type { SubmitPayload } from '@/server/submit';
 
 export default function ChallengeInterface(props: ChallengeData) {
     const [code, setCode] = useState(props.starter);
-    const [language, setLanguage] = useState('haskell');
+    const [language, setLanguage] = useState(props.initialLanguage);
 
     const [pending, setPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -46,13 +46,14 @@ export default function ChallengeInterface(props: ChallengeData) {
 
     return (
         <div className="flex gap-8">
-            <div className="pb-20">
+            <div className="pb-20 flex-grow">
                 <h1 className="text-3xl font-bold mb-4">
                     {props.name}
                 </h1>
                 <p>{props.description}</p>
 
                 <LanguageSelector
+                    languages={props.languages}
                     language={language}
                     setLanguage={setLanguage}
                 />
