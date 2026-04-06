@@ -1,4 +1,5 @@
 import type { FastifyInstance } from '@/server/index';
+import type { Submission } from '@/generated/prisma/client';
 import { Static, Type } from '@sinclair/typebox';
 
 // Utils
@@ -74,8 +75,23 @@ export default function routes(fastify: FastifyInstance) {
             }
         });
 
-        for (let i = 0; i < submissions.length; i++) {
-            await res.sse.send({ data: 'Hello!' })
-        }
+        await res.sse.send({
+            data: {
+                type: 'all',
+                submissions,
+            } satisfies AllSubmissionsMessage
+        });
     })
+}
+
+export type SubmissionMessage = AllSubmissionsMessage | NewSubmissionMessage;
+
+export type AllSubmissionsMessage = {
+    type: 'all',
+    submissions: Submission[]
+}
+
+export type NewSubmissionMessage = {
+    type: 'new',
+    submission: Submission
 }

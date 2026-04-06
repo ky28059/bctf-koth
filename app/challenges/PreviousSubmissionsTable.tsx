@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import type { SubmissionMessage } from '@/server/submit';
+import type { Submission } from '@/generated/prisma/client';
 
 
 type PreviousSubmissionsTableProps = {
@@ -8,12 +10,18 @@ type PreviousSubmissionsTableProps = {
 }
 
 export default function PreviousSubmissionsTable(props: PreviousSubmissionsTableProps) {
+    const [submissions, setSubmissions] = useState<Submission[]>([]);
+
     useEffect(() => {
-        console.log('hi')
         const events = new EventSource(`http://localhost:8000/sse/submissions/${props.id}`, {
             withCredentials: true
         });
-        events.onmessage = (d) => console.log(d);
+
+        events.onmessage = (d) => {
+            const msg: SubmissionMessage = JSON.parse(d.data);
+            if (msg.type === 'all') setSubmissions(msg.submissions);
+            // TODO: other message
+        }
     }, [])
 
     return (
@@ -21,25 +29,25 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
             <thead>
             <tr className="border-b border-tertiary">
                 <th className="px-2 w-12 text-right">#</th>
-                <th className="px-2 w-36 text-left font-semibold">Submission ID</th>
+                <th className="px-2 w-48 text-left font-semibold">Submission ID</th>
                 <th className="px-2 w-36 text-left font-semibold">Length</th>
                 <th className="px-2 text-left font-semibold">Score</th>
             </tr>
             </thead>
             <tbody>
-            {Array(22).fill(0).map((_, i) => (
-                <tr key={i} className="bg-black/10">
+            {submissions.map((s, i) => (
+                <tr key={s.id} className="bg-black/10">
                     <td className="text-secondary text-right px-2">{i + 1}</td>
-                    <td className="px-2 py-0.5">
+                    <td className="px-2 py-0.5 line-clamp-1">
                         <a
-                            href={`/submission/aef97236`}
+                            href={`/submission/${s.id}`}
                             className="text-blue-400 hover:underline"
                         >
-                            aef97236
+                            {s.id}
                         </a>
                     </td>
-                    <td className="px-2">235</td>
-                    <td className="px-2">16/20</td>
+                    <td className="px-2">{s.body.length}</td>
+                    <td className="px-2">...</td>
                 </tr>
             ))}
             </tbody>
