@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id
+  submissions Submission[]
+  scores      UserScore[]
+}
+
+model Challenge {
+  id          String       @id
+  submissions Submission[]
+  scores      UserScore[]
+}
+
+model UserScore {
+  userId  String    @unique
+  challId String    @unique
+  user    User      @relation(fields: [userId], references: [id])
+  chall   Challenge @relation(fields: [challId], references: [id])
+  score   Int
+}
+
+model Submission {
+  id      String    @id @default(uuid(7))
+  body    String
+  ts      DateTime  @default(now())
+  challId String
+  chall   Challenge @relation(fields: [challId], references: [id])
+  userId  String
+  user    User      @relation(fields: [userId], references: [id])
+  // TODO: score
+}
