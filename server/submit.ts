@@ -27,11 +27,11 @@ export default function routes(fastify: FastifyInstance) {
     fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
         const { body, chall } = req.body;
 
-        const auth = req.headers.authorization;
-        if (!auth)
+        const token = req.cookies[AUTH_COOKIE_NAME];
+        if (!token)
             return res.code(401).send({ msg: 'Missing auth token' });
 
-        const profile = await getMyProfile(decodeURIComponent(auth.split(' ')[1]));
+        const profile = await getMyProfile(token);
         if (profile.kind !== 'goodUserData')
             return res.code(401).send({ msg: 'Invalid auth token' });
 

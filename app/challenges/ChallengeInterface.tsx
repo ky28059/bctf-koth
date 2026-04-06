@@ -23,15 +23,14 @@ export default function ChallengeInterface(props: ChallengeData) {
 
     async function submit() {
         setPending(true);
-        const token = document.cookie.match(/ctf_clearance=(.+?)(?:$|;)/)![1];
 
         const res = await fetch('http://localhost:8000/submit', {
             method: 'POST',
             body: JSON.stringify({ body: code, chall: props.id } satisfies SubmitPayload),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            }
+            },
+            credentials: 'include'
         });
         const data = await res.json();
 
