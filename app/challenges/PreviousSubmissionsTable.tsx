@@ -19,9 +19,11 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
 
         events.onmessage = (d) => {
             const msg: SubmissionMessage = JSON.parse(d.data);
-            if (msg.type === 'all') setSubmissions(msg.submissions);
-            // TODO: other message
+            if (msg.type === 'all') return setSubmissions(msg.submissions);
+            if (msg.type === 'new')
+                return setSubmissions((s) => [msg.submission, ...s]);
         }
+        return () => events.close();
     }, [])
 
     return (

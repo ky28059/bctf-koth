@@ -1,4 +1,5 @@
 import type { FastifyInstance } from '@/server/index';
+import type { SSEReplyInterface } from '@fastify/sse';
 import type { Submission } from '@/generated/prisma/client';
 import { Static, Type } from '@sinclair/typebox';
 
@@ -20,6 +21,8 @@ const submitSchema = Type.Object({
 
 export type SubmitPayload = Static<typeof submitSchema>;
 
+const conn = new Map<string, Set<SSEReplyInterface>>();
+
 export default function routes(fastify: FastifyInstance) {
     fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
         const { body, chall } = req.body;
@@ -34,7 +37,7 @@ export default function routes(fastify: FastifyInstance) {
 
         // TODO: submit to specific runner
 
-        // Store submission in DB
+        // Store submission in DB, broadcast to all SSE streams
         const submission = await prisma.submission.create({
             data: {
                 user: {
@@ -47,7 +50,10 @@ export default function routes(fastify: FastifyInstance) {
                 body
             }
         });
-        console.log(submission.id);
+        const connections = conn.get(profile.data.id);
+        connections?.forEach((c) => {
+            c.send({ data: { type: 'new', submission } satisfies NewSubmissionMessage })
+        });
 
         return { msg: 'Submitted successfully' };
     });
@@ -74,13 +80,17 @@ export default function routes(fastify: FastifyInstance) {
                 challId: chall
             }
         });
-
         await res.sse.send({
-            data: {
-                type: 'all',
-                submissions,
-            } satisfies AllSubmissionsMessage
+            data: { type: 'all', submissions } satisfies AllSubmissionsMessage
         });
+
+        const s = conn.get(profile.data.id); // TODO: clean up
+        if (s) {
+            s.add(res.sse);
+        } else {
+            conn.set(profile.data.id, new Set([res.sse]));
+        }
+        res.sse.onClose(() => conn.get(profile.data.id)!.delete(res.sse));
     })
 }
 
