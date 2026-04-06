@@ -94,7 +94,7 @@ export default function ChallengeInterface(props: ChallengeInterfaceProps) {
                 <h2 className="font-bold text-xl mt-12 mb-3">
                     Previous submissions
                 </h2>
-                <PreviousSubmissionsTable />
+                <PreviousSubmissionsTable id={props.id} />
             </div>
 
             <ChallengeScoreboard className="w-64 border-l border-tertiary flex-none max-h-screen overflow-y-auto sticky top-0" />

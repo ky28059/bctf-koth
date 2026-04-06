@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import fastifyCookie from '@fastify/cookie';
 import fastifyCors from '@fastify/cors';
+import fastifySSE from '@fastify/sse';
 
 // Routes
 import submit from './submit';
@@ -11,17 +12,20 @@ const fastify = Fastify({
     logger: true
 }).withTypeProvider<TypeBoxTypeProvider>();
 
-fastify.register(fastifyCookie);
-fastify.register(fastifyCors);
-
 export type FastifyInstance = typeof fastify;
 
-// Routes
-fastify.register(submit);
+async function start() {
+    await fastify.register(fastifyCookie);
+    await fastify.register(fastifyCors, {
+        origin: ['http://localhost:3000'],
+        credentials: true
+    });
+    await fastify.register(fastifySSE);
 
-fastify.get('/', async (req, res) => {
-    console.log('hi');
-    return { ok: true };
-})
+    // Routes
+    await fastify.register(submit);
 
-void fastify.listen({ port: 8000 })
+    await fastify.listen({ port: 8000 })
+}
+
+void start();

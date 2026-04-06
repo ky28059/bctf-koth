@@ -1,4 +1,21 @@
-export default function PreviousSubmissionsTable() {
+'use client'
+
+import { useEffect } from 'react';
+
+
+type PreviousSubmissionsTableProps = {
+    id: string
+}
+
+export default function PreviousSubmissionsTable(props: PreviousSubmissionsTableProps) {
+    useEffect(() => {
+        console.log('hi')
+        const events = new EventSource(`http://localhost:8000/sse/submissions/${props.id}`, {
+            withCredentials: true
+        });
+        events.onmessage = (d) => console.log(d);
+    }, [])
+
     return (
         <table className="w-full border border-tertiary">
             <thead>
