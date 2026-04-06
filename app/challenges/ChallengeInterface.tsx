@@ -9,15 +9,35 @@ import LanguageSelector from '@/app/challenges/LanguageSelector';
 import PreviousSubmissionsTable from '@/app/challenges/PreviousSubmissionsTable';
 import ChallengeScoreboard from '@/app/ChallengeScoreboard';
 
+// Utils
+import type { SubmitPayload } from '@/server/submit';
+
 
 type ChallengeInterfaceProps = {
     name: string,
+    id: 'poly' | 'pickle' | 'shell',
     description: string,
 }
 
 export default function ChallengeInterface(props: ChallengeInterfaceProps) {
     const [code, setCode] = useState(starter);
     const [language, setLanguage] = useState('haskell');
+    const [error, setError] = useState<string | null>(null);
+
+    async function submit() {
+        const res = await fetch('http://localhost:8000/submit', {
+            method: 'POST',
+            body: JSON.stringify({ body: code, chall: props.id } satisfies SubmitPayload),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await res.json();
+        if (!res.ok)
+            return setError(data.msg);
+
+        // TODO: toast
+    }
 
     return (
         <div className="flex gap-8">
@@ -52,7 +72,7 @@ export default function ChallengeInterface(props: ChallengeInterfaceProps) {
 
                 <button
                     className="cursor-pointer bg-blue-500 text-white rounded mt-4 px-3 py-1.5"
-                    onClick={() => {/* TODO */}}
+                    onClick={submit}
                 >
                     Submit
                 </button>

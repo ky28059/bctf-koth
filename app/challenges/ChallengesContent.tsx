@@ -23,9 +23,10 @@ export default function ChallengesContent() {
             </div>
 
             <ChallengeInterface
+                id={challenge.id}
                 name={challenge.name}
                 description={challenge.description}
-                key={challenge.name}
+                key={challenge.id}
             />
         </>
     )

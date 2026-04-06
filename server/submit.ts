@@ -1,24 +1,24 @@
 import type { FastifyInstance } from '@/server/index';
-import { Type } from '@sinclair/typebox';
+import { Static, Type } from '@sinclair/typebox';
 
 // Utils
 import { prisma } from '@/util/prisma';
 import { getMyProfile } from '@/util/profile';
 
 
+const submitSchema = Type.Object({
+    body: Type.String(),
+    chall: Type.Union([
+        Type.Literal('poly'), // TODO: autogen?
+        Type.Literal('pickle'),
+        Type.Literal('shell'),
+    ])
+});
+
+export type SubmitPayload = Static<typeof submitSchema>;
+
 export default function routes(fastify: FastifyInstance) {
-    fastify.post('/submit', {
-        schema: {
-            body: Type.Object({
-                body: Type.String(),
-                chall: Type.Union([
-                    Type.Literal('poly'), // TODO: autogen?
-                    Type.Literal('pickle'),
-                    Type.Literal('shell'),
-                ])
-            })
-        }
-    }, async (req, res) => {
+    fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
         const { body, chall } = req.body;
 
         const token = req.cookies['ctf_clearance'];
