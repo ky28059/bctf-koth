@@ -53,7 +53,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                     </td>
                     <td className="px-2">{s.body.length}</td>
                     <td className="px-2">...</td>
-                    <td className="px-2">{s.ts as unknown as string}</td> {/* TODO: fix serialization typing later */}
+                    <td className="px-2">{s.ts as unknown as string}</td>{/* TODO: fix serialization typing later */}
                 </tr>
             ))}
             </tbody>

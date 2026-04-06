@@ -10,17 +10,12 @@ import PreviousSubmissionsTable from '@/app/challenges/PreviousSubmissionsTable'
 import ChallengeScoreboard from '@/app/ChallengeScoreboard';
 
 // Utils
+import type { ChallengeData } from '@/util/challenges';
 import type { SubmitPayload } from '@/server/submit';
 
 
-type ChallengeInterfaceProps = {
-    name: string,
-    id: 'poly' | 'pickle' | 'shell',
-    description: string,
-}
-
-export default function ChallengeInterface(props: ChallengeInterfaceProps) {
-    const [code, setCode] = useState(starter);
+export default function ChallengeInterface(props: ChallengeData) {
+    const [code, setCode] = useState(props.starter);
     const [language, setLanguage] = useState('haskell');
 
     const [pending, setPending] = useState(false);
@@ -101,7 +96,3 @@ export default function ChallengeInterface(props: ChallengeInterfaceProps) {
         </div>
     )
 }
-
-const starter = `main :: IO ()
-main = getLine >>=
-    (\\[a, b, c] -> print $ mod (a ^ b) c) . map (read :: String -> Int) . words`
