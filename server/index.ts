@@ -1,6 +1,9 @@
 import Fastify from 'fastify';
-import fastifyCookie from '@fastify/cookie';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import fastifyCookie from '@fastify/cookie';
+import fastifyCors from '@fastify/cors';
+
+// Routes
 import submit from './submit';
 
 
@@ -9,6 +12,7 @@ const fastify = Fastify({
 }).withTypeProvider<TypeBoxTypeProvider>();
 
 fastify.register(fastifyCookie);
+fastify.register(fastifyCors);
 
 export type FastifyInstance = typeof fastify;
 

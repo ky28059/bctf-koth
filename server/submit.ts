@@ -21,11 +21,11 @@ export default function routes(fastify: FastifyInstance) {
     fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
         const { body, chall } = req.body;
 
-        const token = req.cookies['ctf_clearance'];
-        if (!token)
+        const auth = req.headers.authorization;
+        if (!auth)
             return res.code(401).send({ msg: 'Missing auth token' });
 
-        const profile = await getMyProfile(token);
+        const profile = await getMyProfile(decodeURIComponent(auth.split(' ')[1]));
         if (profile.kind !== 'goodUserData')
             return res.code(401).send({ msg: 'Invalid auth token' });
 

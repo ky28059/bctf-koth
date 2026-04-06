@@ -22,20 +22,30 @@ type ChallengeInterfaceProps = {
 export default function ChallengeInterface(props: ChallengeInterfaceProps) {
     const [code, setCode] = useState(starter);
     const [language, setLanguage] = useState('haskell');
+
+    const [pending, setPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     async function submit() {
+        setPending(true);
+        const token = document.cookie.match(/ctf_clearance=(.+?)(?:$|;)/)![1];
+
         const res = await fetch('http://localhost:8000/submit', {
             method: 'POST',
             body: JSON.stringify({ body: code, chall: props.id } satisfies SubmitPayload),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             }
         });
         const data = await res.json();
+
+        setPending(false);
+
         if (!res.ok)
             return setError(data.msg);
 
+        setError(null);
         // TODO: toast
     }
 
@@ -71,11 +81,15 @@ export default function ChallengeInterface(props: ChallengeInterfaceProps) {
                 </p>
 
                 <button
-                    className="cursor-pointer bg-blue-500 text-white rounded mt-4 px-3 py-1.5"
+                    className="cursor-pointer bg-blue-500 text-white rounded mt-4 px-3 py-1.5 disabled:opacity-50 transition duration-100"
+                    disabled={pending}
                     onClick={submit}
                 >
                     Submit
                 </button>
+                {error && (
+                    <p className="text-sm text-red-500 mt-1">{error}</p>
+                )}
 
                 <h2 className="font-bold text-xl mt-12 mb-3">
                     Previous submissions
