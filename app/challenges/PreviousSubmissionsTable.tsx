@@ -29,10 +29,10 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
     return (
         <table className="w-full border border-tertiary">
             <thead>
-            <tr className="border-b border-tertiary">
+            <tr className="border-b border-tertiary text-primary text-sm">
                 <th className="px-2 w-12 text-right">#</th>
-                <th className="px-2 w-48 text-left font-semibold">Submission ID</th>
-                <th className="px-2 w-36 text-left font-semibold">Length</th>
+                <th className="py-1 px-2 w-48 text-left font-semibold">Submission ID</th>
+                <th className="px-2 w-24 text-left font-semibold">Length</th>
                 <th className="px-2 w-36 text-left font-semibold">Score</th>
                 <th className="px-2 text-left font-semibold">Time</th>
             </tr>

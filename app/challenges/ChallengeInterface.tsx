@@ -12,6 +12,7 @@ import ChallengeScoreboard from '@/app/ChallengeScoreboard';
 // Utils
 import type { ChallengeData } from '@/util/challenges';
 import type { SubmitPayload } from '@/server/submit';
+import { useToast } from '@/contexts/ToastContext';
 
 
 export default function ChallengeInterface(props: ChallengeData) {
@@ -20,6 +21,8 @@ export default function ChallengeInterface(props: ChallengeData) {
 
     const [pending, setPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const { toast } = useToast()
 
     async function submit() {
         setPending(true);
@@ -40,7 +43,7 @@ export default function ChallengeInterface(props: ChallengeData) {
             return setError(data.msg);
 
         setError(null);
-        // TODO: toast
+        toast({ success: true, title: `Successfully submitted to ${props.name}`, description: 'Your submission will be scored soon.' })
     }
 
     return (
