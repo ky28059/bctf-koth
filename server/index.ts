@@ -1,16 +1,23 @@
 import Fastify from 'fastify';
+import fastifyCookie from '@fastify/cookie';
+import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import submit from './submit';
 
 
-const app = Fastify({
+const fastify = Fastify({
     logger: true
-});
+}).withTypeProvider<TypeBoxTypeProvider>();
 
-app.register(submit);
+fastify.register(fastifyCookie);
 
-app.get('/', async (req, res) => {
+export type FastifyInstance = typeof fastify;
+
+// Routes
+fastify.register(submit);
+
+fastify.get('/', async (req, res) => {
     console.log('hi');
     return { ok: true };
 })
 
-void app.listen({ port: 3000 })
+void fastify.listen({ port: 8000 })

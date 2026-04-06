@@ -10,4 +10,4 @@ export const challenges = [{
     name: 'Shell polyglot',
     id: 'shell',
     description: '...'
-}]
+}];
