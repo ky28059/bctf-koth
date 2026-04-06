@@ -1,6 +1,9 @@
 import type { FastifyInstance } from '@/server/index';
 import { Type } from '@sinclair/typebox';
+
+// Utils
 import { prisma } from '@/util/prisma';
+import { getMyProfile } from '@/util/profile';
 
 
 export default function routes(fastify: FastifyInstance) {
@@ -18,12 +21,30 @@ export default function routes(fastify: FastifyInstance) {
     }, async (req, res) => {
         const { body, chall } = req.body;
 
-        const cookie = req.cookies['ctf_clearance'];
-        if (!cookie)
-            return res.code(401).send({ ok: false });
+        const token = req.cookies['ctf_clearance'];
+        if (!token)
+            return res.code(401).send({ msg: 'Missing auth token' });
 
-        console.log(await prisma.user.findMany());
+        const profile = await getMyProfile(token);
+        if (profile.kind !== 'goodUserData')
+            return res.code(401).send({ msg: 'Invalid auth token' });
 
-        return { ok: true }
+        // TODO: submit to specific runner
+
+        // Store submission in DB
+        await prisma.submission.create({
+            data: {
+                user: {
+                    connectOrCreate: {
+                        where: { id: profile.data.id },
+                        create: { id: profile.data.id }
+                    }
+                },
+                chall: { connect: { id: chall } },
+                body
+            }
+        });
+
+        return { msg: 'Submitted successfully' };
     });
 }
