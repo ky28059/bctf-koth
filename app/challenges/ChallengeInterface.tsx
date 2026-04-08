@@ -49,7 +49,7 @@ export default function ChallengeInterface(props: ChallengeData) {
     }
 
     return (
-        <Tabs.Content value={props.id} className="flex gap-8">
+        <Tabs.Content value={props.id} forceMount className="flex gap-8 data-[state=inactive]:hidden">
             <div className="pb-20 flex-grow min-w-0">
                 <h1 className="text-3xl font-bold mb-4">
                     {props.name}
