@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react';
+import { Tabs } from 'radix-ui';
 import Editor from 'react-simple-code-editor';
 import Markdown from 'react-markdown';
 import { highlight, languages } from 'prismjs';
@@ -48,8 +49,8 @@ export default function ChallengeInterface(props: ChallengeData) {
     }
 
     return (
-        <div className="flex gap-8">
-            <div className="pb-20 flex-grow">
+        <Tabs.Content value={props.id} className="flex gap-8">
+            <div className="pb-20 flex-grow min-w-0">
                 <h1 className="text-3xl font-bold mb-4">
                     {props.name}
                 </h1>
@@ -99,6 +100,6 @@ export default function ChallengeInterface(props: ChallengeData) {
             </div>
 
             <ChallengeScoreboard className="w-64 border-l border-tertiary flex-none max-h-screen overflow-y-auto sticky top-0" />
-        </div>
+        </Tabs.Content>
     )
 }
