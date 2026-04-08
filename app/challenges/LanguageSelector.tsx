@@ -35,7 +35,7 @@ export default function LanguageSelector(props: LanguageSelectorProps) {
                 >
                     {l.icon && (
                         <img
-                            src={`/icons/${l.name}.svg`}
+                            src={`/icons/${l.icon}`}
                             alt={l.name}
                             className={'size-4 mr-1' + (l.invert ? ' dark:invert dark:hue-rotate-180' : '')}
                         />
@@ -50,141 +50,131 @@ export default function LanguageSelector(props: LanguageSelectorProps) {
 const languages = [{
     name: "python",
     highlight: true,
-    icon: true,
+    icon: 'python.svg',
     invert: false
 }, {
     name: "fish",
     highlight: false,
-    icon: false,
     invert: false
 }, {
     name: "whitespace",
     highlight: false,
-    icon: false,
     invert: false
 }, {
     name: "perl",
     highlight: true,
-    icon: true,
+    icon: 'perl.svg',
     invert: false
 }, {
     name: "rust",
     highlight: true,
-    icon: true,
+    icon: 'rust.svg',
     invert: true
 }, {
     name: "elixir",
     highlight: true,
-    icon: true,
+    icon: 'elixir.svg',
     invert: false
 }, {
     name: "brainfuck",
     highlight: true,
-    icon: false,
     invert: false
 }, {
     name: "bash",
     highlight: true,
-    icon: true,
+    icon: 'bash.svg',
     invert: false
 }, {
     name: "c",
     highlight: true,
-    icon: false,
+    icon: 'c.png',
     invert: false
 }, {
     name: "odin",
     highlight: true,
-    icon: true,
+    icon: 'odin.svg',
     invert: false
 }, {
     name: "lua",
     highlight: true,
-    icon: true,
+    icon: 'lua.svg',
     invert: false
 }, {
     name: "racket",
     highlight: true,
-    icon: true,
+    icon: 'racket.svg',
     invert: false
 }, {
     name: "typescript",
     highlight: true,
-    icon: true,
+    icon: 'typescript.svg',
     invert: false
 }, {
     name: "julia",
     highlight: true,
-    icon: true,
+    icon: 'julia.svg',
     invert: true
 }, {
     name: "haskell",
     highlight: true,
-    icon: true,
+    icon: 'haskell.svg',
     invert: false
 }, {
     name: "erlang",
     highlight: true,
-    icon: true,
+    icon: 'erlang.svg',
     invert: false
 }, {
     name: "j",
     highlight: true,
-    icon: false,
+    icon: 'j.png',
     invert: false
 }, {
     name: "golfscript",
     highlight: false,
-    icon: false,
     invert: false
 }, {
     name: "java",
     highlight: true,
-    icon: false,
+    icon: 'java.svg',
     invert: false
 }, {
     name: "ash",
     highlight: false,
-    icon: false,
     invert: false
 }, {
     name: "rc",
     highlight: false,
-    icon: false,
     invert: false
 }, {
     name: "nushell",
     highlight: false,
-    icon: true,
+    // icon: 'nushell.svg',
     invert: false
 }, {
     name: "powershell",
     highlight: true,
-    icon: false,
+    icon: 'powershell.png',
     invert: false
 }, {
     name: "zsh",
     highlight: false,
-    icon: true,
+    // icon: 'zsh.svg',
     invert: true
 }, {
     name: "ysh",
     highlight: false,
-    icon: false,
     invert: false
 }, {
     name: "elvish",
     highlight: false,
-    icon: false,
     invert: false
 }, {
     name: "ksh",
     highlight: false,
-    icon: false,
     invert: false
 }, {
     name: "xonsh",
     highlight: false,
-    icon: false,
     invert: false
 }]
