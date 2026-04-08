@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Editor from 'react-simple-code-editor';
+import Markdown from 'react-markdown';
 import { highlight, languages } from 'prismjs';
 
 // Components
@@ -22,7 +23,7 @@ export default function ChallengeInterface(props: ChallengeData) {
     const [pending, setPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { toast } = useToast()
+    const { toast } = useToast();
 
     async function submit() {
         setPending(true);
@@ -52,7 +53,9 @@ export default function ChallengeInterface(props: ChallengeData) {
                 <h1 className="text-3xl font-bold mb-4">
                     {props.name}
                 </h1>
-                <p>{props.description}</p>
+                <div className="markdown">
+                    <Markdown>{props.description}</Markdown>
+                </div>
 
                 <LanguageSelector
                     languages={props.languages}

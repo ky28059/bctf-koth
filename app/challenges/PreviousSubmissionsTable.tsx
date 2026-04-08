@@ -27,7 +27,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
     }, [])
 
     return (
-        <table className="w-full border border-tertiary">
+        <table className="w-full border border-tertiary text-sm">
             <thead>
             <tr className="border-b border-tertiary text-primary text-sm">
                 <th className="px-2 w-12 text-right">#</th>
@@ -43,7 +43,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                     <td className="text-secondary text-right px-2">
                         {submissions.length - i}
                     </td>
-                    <td className="px-2 py-0.5 line-clamp-1">
+                    <td className="px-2 py-1 line-clamp-1">
                         <a
                             href={`/submission/${s.id}`}
                             className="text-blue-400 hover:underline"

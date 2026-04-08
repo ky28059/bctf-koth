@@ -10,8 +10,28 @@ export type ChallengeData = {
 export const challenges: ChallengeData[] = [{
     name: 'Polyglot',
     id: 'poly',
-    description: 'Write a polyglot that compiles / runs in as many of the following languages as possible: [...]. In each language, your code should read 3 values a, b, and c from `stdin` then output `a^b%c` to `stdout`. [...]',
-    languages: ['bash', 'brainfuck', 'c', 'elixir', 'erlang', 'fish', 'golfscript', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'racket', 'rust', 'typescript', 'whitespace'],
+    description: `Write a polyglot that compiles / runs in as many of the following languages as possible:
+- Bash
+- Brainfuck
+- C
+- Elixir
+- Erlang
+- GolfScript
+- Haskell
+- J
+- Java
+- Julia
+- Lua
+- Odin
+- Perl
+- Python 0 [[Image](https://hub.docker.com/r/dustingram/vintage-python)]
+- Scheme
+- Rust
+- TypeScript
+- Whitespace
+
+In each language, your code should read 3 space-separated integers a, b, and c from \`stdin\`, then output \`pow(a, b) % c\` to \`stdout\`. Overflow resilience will be tested!`,
+    languages: ['bash', 'brainfuck', 'c', 'elixir', 'erlang', 'golfscript', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'racket', 'rust', 'typescript', 'whitespace'],
     initialLanguage: 'haskell',
     starter: `main :: IO ()
 main = getLine >>=
