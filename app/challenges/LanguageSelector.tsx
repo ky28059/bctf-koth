@@ -37,7 +37,7 @@ export default function LanguageSelector(props: LanguageSelectorProps) {
                         <img
                             src={`/icons/${l.icon}`}
                             alt={l.name}
-                            className={'size-4 mr-1' + (l.invert ? ' dark:invert dark:hue-rotate-180' : '')}
+                            className={'size-4 mr-1 object-contain object-center' + (l.invert ? ' dark:invert dark:hue-rotate-180' : '')}
                         />
                     )}
                     {l.name}

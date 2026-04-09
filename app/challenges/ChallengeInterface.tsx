@@ -79,7 +79,7 @@ export default function ChallengeInterface(props: ChallengeData) {
                     {code}
                 </Editor>
                 <p className="mt-1 text-sm text-secondary">
-                    {code.length} characters
+                    {code.length} characters ({language})
                 </p>
 
                 <button
