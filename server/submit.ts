@@ -8,6 +8,7 @@ import { prisma } from '@/util/prisma';
 import { getMyProfile } from '@/util/profile';
 import { submitPayloadToRunner } from '@/server/websocket';
 import { AUTH_COOKIE_NAME } from '@/util/config';
+import { challenges } from '@/util/challenges';
 
 
 const challSchema = Type.Union([
@@ -22,13 +23,8 @@ const submitSchema = Type.Object({
 
 export type SubmitPayload = Static<typeof submitSchema>;
 
-const listeners = new Map<string, Map<string, Set<SSEReplyInterface>>>();
-
-export function listenersFor(chall: string) {
-    if (!listeners.has(chall))
-        listeners.set(chall, new Map());
-    return listeners.get(chall)!;
-}
+export const listeners: Record<string, Map<string, Set<SSEReplyInterface>>> = {};
+challenges.forEach((c) => listeners[c.id] = new Map());
 
 export default function routes(fastify: FastifyInstance) {
     fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
@@ -53,10 +49,10 @@ export default function routes(fastify: FastifyInstance) {
                 },
                 chall: { connect: { id: chall } },
                 status: Status.QUEUED,
-                body
+                body: btoa(body)
             }
         });
-        listenersFor(chall).get(profile.data.id)?.forEach((c) => {
+        listeners[chall].get(profile.data.id)?.forEach((c) => {
             c.send({ data: { type: 'new', submission } satisfies NewSubmissionMessage })
         });
 
@@ -91,18 +87,17 @@ export default function routes(fastify: FastifyInstance) {
             data: { type: 'all', submissions } satisfies AllSubmissionsMessage
         });
 
-        const ls = listenersFor(chall);
-        const s = ls.get(profile.data.id); // TODO: clean up
+        const s = listeners[chall].get(profile.data.id); // TODO: clean up
         if (s) {
             s.add(res.sse);
         } else {
-            ls.set(profile.data.id, new Set([res.sse]));
+            listeners[chall].set(profile.data.id, new Set([res.sse]));
         }
-        res.sse.onClose(() => ls.get(profile.data.id)!.delete(res.sse));
+        res.sse.onClose(() => listeners[chall].get(profile.data.id)!.delete(res.sse));
     })
 }
 
-export type SubmissionMessage = AllSubmissionsMessage | NewSubmissionMessage;
+export type SubmissionMessage = AllSubmissionsMessage | NewSubmissionMessage | UpdateSubmissionMessage;
 
 export type AllSubmissionsMessage = {
     type: 'all',

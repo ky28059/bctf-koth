@@ -1,6 +1,6 @@
 import { Submission, Status } from '@/generated/prisma/client';
 import { prisma } from '@/util/prisma';
-import { UpdateSubmissionMessage, listenersFor } from '@/server/submit';
+import { listeners, UpdateSubmissionMessage } from '@/server/submit';
 
 
 const ws = new WebSocket('ws://localhost:5000');
@@ -12,11 +12,13 @@ export function submitPayloadToRunner(chall: string, team: string, submission: S
         id: submission.id,
         payload: submission.body,
         team,
+        languages: ['haskell']
     } satisfies RunnerRequest));
 }
 
 async function handleRunnerMessage(chall: string, e: MessageEvent) {
     const msg = JSON.parse(e.data) as RunnerResponse;
+    console.log(chall, 'received from runner', msg);
 
     switch (msg.type) {
         case 'queue':
@@ -27,7 +29,7 @@ async function handleRunnerMessage(chall: string, e: MessageEvent) {
                 where: { id: msg.id },
                 data: { status: Status.TESTING }
             });
-            listenersFor(chall).get(msg.team)?.forEach((c) => {
+            listeners[chall].get(msg.team)?.forEach((c) => {
                 c.send({ data: { type: 'update', submission: s1 } satisfies UpdateSubmissionMessage })
             });
             break;
@@ -42,7 +44,7 @@ async function handleRunnerMessage(chall: string, e: MessageEvent) {
                     error: msg.error
                 }
             });
-            listenersFor(chall).get(msg.team)?.forEach((c) => {
+            listeners[chall].get(msg.team)?.forEach((c) => {
                 c.send({ data: { type: 'update', submission: s2 } satisfies UpdateSubmissionMessage })
             });
             break;
