@@ -29,11 +29,18 @@ model UserScore {
 
 model Submission {
   id      String    @id @default(uuid(7))
+  score   Int[]     @default([])
+  status  Status
   body    String
   ts      DateTime  @default(now())
   challId String
   chall   Challenge @relation(fields: [challId], references: [id])
   userId  String
   user    User      @relation(fields: [userId], references: [id])
-  // TODO: score
+}
+
+enum Status {
+  QUEUED
+  TESTING
+  COMPLETED
 }

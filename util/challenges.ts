@@ -33,9 +33,16 @@ export const challenges: ChallengeData[] = [{
 In each language, your code should read 3 space-separated integers a, b, and c from \`stdin\`, then output \`pow(a, b) % c\` to \`stdout\`. Overflow resilience will be tested!`,
     languages: ['bash', 'brainfuck', 'c', 'elixir', 'erlang', 'golfscript', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'racket', 'rust', 'typescript', 'whitespace'],
     initialLanguage: 'haskell',
-    starter: `main :: IO ()
-main = getLine >>=
-    (\\[a, b, c] -> print $ mod (a ^ b) c) . map (read :: String -> Int) . words`
+    starter: `powmod :: Int -> Int -> Int -> Int
+powmod a 1 c = mod a c
+powmod a b c = let r = powmod a (b - 1) c in mod (a * r) c
+
+main :: IO ()
+main =
+  (readLn :: IO (Int)) >>= \\a ->
+  (readLn :: IO (Int)) >>= \\b ->
+  (readLn :: IO (Int)) >>= \\c ->
+  print $ powmod a b c`
 }, {
     name: 'Pickle golf',
     id: 'pickle',
