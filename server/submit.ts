@@ -1,11 +1,12 @@
 import type { FastifyInstance } from '@/server/index';
 import type { SSEReplyInterface } from '@fastify/sse';
-import type { Submission } from '@/generated/prisma/client';
+import { Status, Submission } from '@/generated/prisma/client';
 import { Static, Type } from '@sinclair/typebox';
 
 // Utils
 import { prisma } from '@/util/prisma';
 import { getMyProfile } from '@/util/profile';
+import { submitPayloadToRunner } from '@/server/websocket';
 import { AUTH_COOKIE_NAME } from '@/util/config';
 
 
@@ -21,7 +22,13 @@ const submitSchema = Type.Object({
 
 export type SubmitPayload = Static<typeof submitSchema>;
 
-const conn = new Map<string, Set<SSEReplyInterface>>();
+const listeners = new Map<string, Map<string, Set<SSEReplyInterface>>>();
+
+export function listenersFor(chall: string) {
+    if (!listeners.has(chall))
+        listeners.set(chall, new Map());
+    return listeners.get(chall)!;
+}
 
 export default function routes(fastify: FastifyInstance) {
     fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
@@ -35,8 +42,6 @@ export default function routes(fastify: FastifyInstance) {
         if (profile.kind !== 'goodUserData')
             return res.code(401).send({ msg: 'Invalid auth token' });
 
-        // TODO: submit to specific runner
-
         // Store submission in DB, broadcast to all SSE streams
         const submission = await prisma.submission.create({
             data: {
@@ -47,13 +52,15 @@ export default function routes(fastify: FastifyInstance) {
                     }
                 },
                 chall: { connect: { id: chall } },
+                status: Status.QUEUED,
                 body
             }
         });
-        const connections = conn.get(profile.data.id);
-        connections?.forEach((c) => {
+        listenersFor(chall).get(profile.data.id)?.forEach((c) => {
             c.send({ data: { type: 'new', submission } satisfies NewSubmissionMessage })
         });
+
+        submitPayloadToRunner(chall, profile.data.id, submission);
 
         return { msg: 'Submitted successfully' };
     });
@@ -84,13 +91,14 @@ export default function routes(fastify: FastifyInstance) {
             data: { type: 'all', submissions } satisfies AllSubmissionsMessage
         });
 
-        const s = conn.get(profile.data.id); // TODO: clean up
+        const ls = listenersFor(chall);
+        const s = ls.get(profile.data.id); // TODO: clean up
         if (s) {
             s.add(res.sse);
         } else {
-            conn.set(profile.data.id, new Set([res.sse]));
+            ls.set(profile.data.id, new Set([res.sse]));
         }
-        res.sse.onClose(() => conn.get(profile.data.id)!.delete(res.sse));
+        res.sse.onClose(() => ls.get(profile.data.id)!.delete(res.sse));
     })
 }
 
@@ -103,5 +111,10 @@ export type AllSubmissionsMessage = {
 
 export type NewSubmissionMessage = {
     type: 'new',
+    submission: Submission
+}
+
+export type UpdateSubmissionMessage = {
+    type: 'update',
     submission: Submission
 }

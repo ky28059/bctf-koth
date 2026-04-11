@@ -29,9 +29,11 @@ model UserScore {
 
 model Submission {
   id      String    @id @default(uuid(7))
-  score   Int[]     @default([])
   status  Status
   body    String
+  score   Int[]     @default([])
+  error   String?
+  tests   Json?
   ts      DateTime  @default(now())
   challId String
   chall   Challenge @relation(fields: [challId], references: [id])
