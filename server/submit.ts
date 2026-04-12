@@ -19,6 +19,7 @@ const challSchema = Type.Union([
 const submitSchema = Type.Object({
     body: Type.String(),
     chall: challSchema,
+    languages: Type.Optional(Type.Array(Type.String()))
 });
 
 export type SubmitPayload = Static<typeof submitSchema>;

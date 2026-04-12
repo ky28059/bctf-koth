@@ -1,13 +1,24 @@
-export type ChallengeData = {
+export type ChallengeData = PolyglotChallengeData | SpecialChallengeData;
+
+type BaseChallengeData = {
     name: string,
     id: 'poly' | 'pickle' | 'shell',
-    description: string,
+    description: string
+}
+
+export type PolyglotChallengeData = BaseChallengeData & {
+    type: 'polyglot',
     starter: string,
     languages: string[],
     initialLanguage: string
 }
 
+export type SpecialChallengeData = BaseChallengeData & {
+    type: 'special'
+}
+
 export const challenges: ChallengeData[] = [{
+    type: 'polyglot',
     name: 'Polyglot',
     id: 'poly',
     description: `Write a polyglot that compiles / runs in as many of the following languages as possible:
@@ -34,7 +45,7 @@ In each language, your code should read 3 space-separated integers a, b, and c f
     languages: ['bash', 'brainfuck', 'c', 'elixir', 'erlang', 'golfscript', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'racket', 'rust', 'typescript', 'whitespace'],
     initialLanguage: 'haskell',
     starter: `powmod :: Int -> Int -> Int -> Int
-powmod a 1 c = mod a c
+powmod a 0 c = 1
 powmod a b c = let r = powmod a (b - 1) c in mod (a * r) c
 
 main :: IO ()
@@ -44,13 +55,12 @@ main =
   (readLn :: IO (Int)) >>= \\c ->
   print $ powmod a b c`
 }, {
+    type: 'special',
     name: 'Pickle golf',
     id: 'pickle',
-    description: '...',
-    languages: [],
-    initialLanguage: 'bash', // TODO
-    starter: '...'
+    description: '...'
 }, {
+    type: 'polyglot',
     name: 'Shell polyglot',
     id: 'shell',
     description: '...',
