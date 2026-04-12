@@ -61,7 +61,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                             {s.id}
                         </a>
                     </td>
-                    <td className="px-2">{s.body.length}</td>
+                    <td className="px-2">{atob(s.body).length}</td>
                     <td className="px-2">
                         {s.status === 'QUEUED' ? (
                             <span className="bg-amber-500/20 text-amber-500 rounded-full text-xs px-1.5 py-0.5">

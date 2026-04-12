@@ -12,7 +12,7 @@ export function submitPayloadToRunner(chall: string, team: string, submission: S
         id: submission.id,
         payload: submission.body,
         team,
-        languages: ['haskell']
+        languages: submission.languages,
     } satisfies RunnerRequest));
 }
 

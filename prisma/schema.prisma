@@ -10,35 +10,27 @@ datasource db {
 model User {
   id          String       @id
   submissions Submission[]
-  scores      UserScore[]
+  top         Json?
 }
 
 model Challenge {
   id          String       @id
   submissions Submission[]
-  scores      UserScore[]
-}
-
-model UserScore {
-  userId  String    @unique
-  challId String    @unique
-  user    User      @relation(fields: [userId], references: [id])
-  chall   Challenge @relation(fields: [challId], references: [id])
-  score   Int
 }
 
 model Submission {
-  id      String    @id @default(uuid(7))
-  status  Status
-  body    String
-  score   Int[]     @default([])
-  error   String?
-  tests   Json?
-  ts      DateTime  @default(now())
-  challId String
-  chall   Challenge @relation(fields: [challId], references: [id])
-  userId  String
-  user    User      @relation(fields: [userId], references: [id])
+  id        String    @id @default(uuid(7))
+  status    Status
+  body      String
+  languages String[]  @default([])
+  score     Int[]     @default([])
+  error     String?
+  tests     Json?
+  ts        DateTime  @default(now())
+  challId   String
+  chall     Challenge @relation(fields: [challId], references: [id])
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
 }
 
 enum Status {

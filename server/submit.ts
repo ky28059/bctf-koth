@@ -29,7 +29,7 @@ challenges.forEach((c) => listeners[c.id] = new Map());
 
 export default function routes(fastify: FastifyInstance) {
     fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
-        const { body, chall } = req.body;
+        const { body, chall, languages } = req.body;
 
         const token = req.cookies[AUTH_COOKIE_NAME];
         if (!token)
@@ -50,7 +50,8 @@ export default function routes(fastify: FastifyInstance) {
                 },
                 chall: { connect: { id: chall } },
                 status: Status.QUEUED,
-                body: btoa(body)
+                body: btoa(body),
+                languages
             }
         });
         listeners[chall].get(profile.data.id)?.forEach((c) => {
