@@ -19,6 +19,44 @@
     --color-grapefruit: #ff6347;
     --color-pomegranate: #e03c31;
 
+    --animate-dialog-overlay: dialog-overlay-show 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    --animate-dialog-overlay-out: dialog-overlay-hide 200ms cubic-bezier(0.16, 1, 0.3, 1);
+
+    --animate-dialog-content: dialog-content-show 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    --animate-dialog-content-out: dialog-content-hide 200ms cubic-bezier(0.16, 1, 0.3, 1);
+
+    @keyframes dialog-overlay-show {
+        from { opacity: 0 }
+        to { opacity: 1 }
+    }
+
+    @keyframes dialog-overlay-hide {
+        from { opacity: 1 }
+        to { opacity: 0 }
+    }
+
+    @keyframes dialog-content-show {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes dialog-content-hide {
+        from {
+            opacity: 1;
+            transform: scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+    }
+
     @keyframes slide-down {
         from {
             transform: translate3d(0, var(--y), 0);
@@ -174,10 +212,10 @@
     }
 }
 
-code[class*="language-"],
-pre[class*="language-"] {
-    color: #bfbfbf; /* editor.foreground */
-    background: #242526; /* textCodeBlock.background */
+pre[class*="language-"],
+pre.prismjs {
+    color: #bbbebf;
+    background: #121314;
     text-shadow: none;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     font-size: 1em;
@@ -188,28 +226,16 @@ pre[class*="language-"] {
     word-break: normal;
     tab-size: 4;
     hyphens: none;
-}
-
-/* Code blocks */
-pre[class*="language-"] {
-    padding: 1em;
-    margin: .5em 0;
+    padding: 0.5em 1em;
     overflow: auto;
-    border-radius: 0.3em;
-}
-
-/* Inline code */
-:not(pre) > code[class*="language-"] {
-    padding: .1em;
-    border-radius: .3em;
-    white-space: normal;
 }
 
 /* Tokens */
 .token.comment,
 .token.prolog,
 .token.doctype,
-.token.cdata {
+.token.cdata,
+.comment.linenumber {
     color: #8b949e;
 }
 
