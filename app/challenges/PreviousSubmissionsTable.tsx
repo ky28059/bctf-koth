@@ -6,11 +6,12 @@ import { Dialog } from 'radix-ui';
 
 // Components
 import CenteredModal from '@/components/CenteredModal';
+import CopyCodeBlock from '@/components/CopyCodeBlock';
+import SubmissionStatusIndicator from '@/app/challenges/SubmissionStatusIndicator';
 
 // Utils
 import type { SubmissionMessage } from '@/server/submit';
 import type { Submission } from '@/generated/prisma/client';
-import CopyCodeBlock from '@/components/CopyCodeBlock';
 
 
 type PreviousSubmissionsTableProps = {
@@ -79,23 +80,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                         </td>
                         <td className="px-2">{atob(s.body).length}</td>
                         <td className="px-2">
-                            {s.status === 'QUEUED' ? (
-                                <span className="bg-amber-500/20 text-amber-500 rounded-full text-xs px-1.5 py-0.5">
-                                In queue
-                            </span>
-                            ) : s.status === 'TESTING' ? (
-                                <span className="bg-yellow-500/20 text-yellow-500 rounded-full text-xs px-1.5 py-0.5">
-                                Testing
-                            </span>
-                            ) : s.error ? (
-                                <span className="bg-red-500/20 text-red-500 rounded-full text-xs px-1.5 py-0.5">
-                                Error
-                            </span>
-                            ) : (
-                                <span className="bg-lime-500/20 text-lime-500 rounded-full text-xs px-1.5 py-0.5">
-                                Scored
-                            </span>
-                            )}
+                            <SubmissionStatusIndicator status={s.status} error={s.error} />
                         </td>
                         <td className="px-2">
                             {s.score[0] ?? '-'}
@@ -112,19 +97,27 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
             </table>
 
             <CenteredModal
-                className="bg-midnight shadow-2xl max-w-2xl max-h-[80%] overflow-y-auto rounded-lg px-8 py-6"
+                className="bg-midnight shadow-2xl max-w-3xl max-h-[80%] overflow-y-auto rounded-lg px-8 py-6"
                 open={open}
                 setOpen={setOpen}
             >
-                <Dialog.Title className="text-2xl font-bold mb-3">
+                <Dialog.Title className="text-2xl font-bold mb-2">
                     Submission {submissions[current]?.id}
                 </Dialog.Title>
                 <p className="text-secondary text-sm mb-3">
-                    Submission [...] at time [...].
+                    Submission #{current + 1} at time [...].
                 </p>
-                <CopyCodeBlock language={submissions[current]?.languages[0]}>
+                <CopyCodeBlock language={submissions[current]?.languages[0]} className="mb-2">
                     {submissions[current]?.body && atob(submissions[current].body)}
                 </CopyCodeBlock>
+
+                {submissions[current]?.error ? (
+                    <pre className="text-sm overflow-x-auto bg-red-500/20 text-red-500 px-4 py-2 rounded border border-red-500">
+                        {submissions[current].error.trim()}
+                    </pre>
+                ) : ( // TODO?
+                    <SubmissionStatusIndicator status={submissions[current]?.status} />
+                )}
 
                 {Array.isArray(submissions[current]?.tests) && submissions[current].tests.map((test, i) => (
                     <div className="mt-4">
