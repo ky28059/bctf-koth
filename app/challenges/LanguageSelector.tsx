@@ -16,6 +16,7 @@ import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-perl';
 import 'prismjs/components/prism-haskell';
 import 'prismjs/components/prism-powershell';
+import 'prismjs/components/prism-zig';
 
 
 type LanguageSelectorProps = {
@@ -138,6 +139,16 @@ const languages = [{
     highlight: true,
     icon: 'java.svg',
     invert: false
+}, {
+    name: "zig",
+    highlight: true,
+    icon: 'zig.svg',
+    invert: false
+}, {
+    name: 'scheme',
+    highlight: true,
+    icon: 'scheme.svg',
+    invert: true
 }, {
     name: "ash",
     highlight: false,

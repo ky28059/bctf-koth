@@ -25,16 +25,18 @@ export const challenges: ChallengeData[] = [{
 \`\`\`
 [bash, zig, C, elixir, erlang, golfscript, haskell, J, java, julia, lua, odin, perl, python 0, scheme, rust, typescript, whitespace]
 \`\`\`
-(for exact versions / compilers / docker images, a sample runner is attached below).
+(for exact versions / compilers / docker images, a sample runner is attached below). In each language,
 
 ### Input
 The first line contains $a$ ($10 \\leq a \\leq 999$).
+
 The second line contains $b$ ($50 \\leq b \\leq 100$).
+
 The third line contains $c$ ($100 \\leq c \\leq 999$).
 
 ### Output
-Output a single integer equal to \`pow(a, b) % c\`. Overflow resilience will be tested!`,
-    languages: ['bash', 'brainfuck', 'c', 'elixir', 'erlang', 'golfscript', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'racket', 'rust', 'typescript', 'whitespace'],
+Output a single integer equal to $a^b \\mod c$. Overflow resilience will be tested!`,
+    languages: ['bash', 'c', 'elixir', 'erlang', 'golfscript', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'scheme', 'rust', 'typescript', 'whitespace', 'zig'],
     initialLanguage: 'haskell',
     starter: `powmod :: Int -> Int -> Int -> Int
 powmod a 0 c = 1

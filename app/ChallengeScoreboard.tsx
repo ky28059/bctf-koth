@@ -7,9 +7,8 @@ export default function ChallengeScoreboard(props: { className?: string }) {
             {Array(100).fill(0).map((_, i) => (
                 <ChallengeScoreboardEntry
                     rank={i + 1}
-                    avatarUrl="/assets/b01lers.png"
                     name="b01lers"
-                    score={15}
+                    score={[15, -270]}
                     key={i}
                 />
             ))}

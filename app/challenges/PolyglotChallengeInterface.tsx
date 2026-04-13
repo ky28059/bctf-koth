@@ -84,7 +84,7 @@ export default function PolyglotChallengeInterface(props: PolyglotChallengeData)
             </p>
 
             <div className="mt-1 grid grid-cols-5 text-sm text-primary select-none"> {/* TODO */}
-                {props.languages.map((l) => (
+                {props.languages.toSorted().map((l) => (
                     <div className="flex gap-1" key={l}>
                         <input
                             id={l}
