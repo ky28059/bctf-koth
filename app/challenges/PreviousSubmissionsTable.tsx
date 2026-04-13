@@ -101,18 +101,28 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                 open={open}
                 setOpen={setOpen}
             >
-                <Dialog.Title className="text-2xl font-bold mb-2">
-                    Submission {submissions[current]?.id}
+                <Dialog.Title className="text-xl font-bold mb-2">
+                    Submission{' '}
+                    <a href={`/submission/${submissions[current]?.id}`} className="text-blue-400 hover:underline">
+                        {submissions[current]?.id}
+                    </a>
                 </Dialog.Title>
-                <p className="text-secondary text-sm mb-3">
-                    Submission #{current + 1} at time [...].
-                </p>
-                <CopyCodeBlock language={submissions[current]?.languages[0]} className="mb-2">
+                <CopyCodeBlock language={submissions[current]?.languages[0]}>
                     {submissions[current]?.body && atob(submissions[current].body)}
                 </CopyCodeBlock>
+                <div className="text-xs text-secondary mt-1 mb-2">
+                    #{current + 1},{' '}
+                    {submissions[current]?.languages.length > 0 && (
+                        <>languages: [<span className="text-primary">{submissions[current].languages.join(', ')}</span>], </>
+                    )}
+                    {submissions[current]?.score.length > 0 && (
+                        <>score: <span className="text-primary">{submissions[current]?.score[0]}</span> ({submissions[current]?.score[1]}), </>
+                    )}
+                    time: <span className="text-primary">{submissions[current]?.ts}</span>
+                </div>
 
                 {submissions[current]?.error ? (
-                    <pre className="text-sm overflow-x-auto bg-red-500/20 text-red-500 px-4 py-2 rounded border border-red-500">
+                    <pre className="mt-2 text-sm overflow-x-auto bg-red-500/20 text-red-500 px-4 py-2 rounded border border-red-500">
                         {submissions[current].error.trim()}
                     </pre>
                 ) : ( // TODO?
@@ -128,7 +138,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                             {(test as string[])[0].trim()}
                         </CopyCodeBlock>
                         <h3 className="text-xs text-primary my-0.5">
-                            Program output:
+                            Checker output:
                         </h3>
                         <CopyCodeBlock className="text-sm">
                             {(test as string[])[1].trim()}
