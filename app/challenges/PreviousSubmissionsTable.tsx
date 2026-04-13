@@ -130,7 +130,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                 )}
 
                 {Array.isArray(submissions[current]?.tests) && submissions[current].tests.map((test, i) => (
-                    <div className="mt-4">
+                    <div className="mt-4" key={i}>
                         <h3 className="text-xs text-primary mb-0.5">
                             Test case {i + 1}
                         </h3>

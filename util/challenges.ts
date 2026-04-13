@@ -22,26 +22,18 @@ export const challenges: ChallengeData[] = [{
     name: 'Polyglot',
     id: 'poly',
     description: `Write a polyglot that compiles / runs in as many of the following languages as possible:
-- Bash
-- Brainfuck
-- C
-- Elixir
-- Erlang
-- GolfScript
-- Haskell
-- J
-- Java
-- Julia
-- Lua
-- Odin
-- Perl
-- Python 0 [[Image](https://hub.docker.com/r/dustingram/vintage-python)]
-- Scheme
-- Rust
-- TypeScript
-- Whitespace
+\`\`\`
+[bash, zig, C, elixir, erlang, golfscript, haskell, J, java, julia, lua, odin, perl, python 0, scheme, rust, typescript, whitespace]
+\`\`\`
+(for exact versions / compilers / docker images, a sample runner is attached below).
 
-In each language, your code should read 3 space-separated integers a, b, and c from \`stdin\`, then output \`pow(a, b) % c\` to \`stdout\`. Overflow resilience will be tested!`,
+### Input
+The first line contains $a$ ($10 \\leq a \\leq 999$).
+The second line contains $b$ ($50 \\leq b \\leq 100$).
+The third line contains $c$ ($100 \\leq c \\leq 999$).
+
+### Output
+Output a single integer equal to \`pow(a, b) % c\`. Overflow resilience will be tested!`,
     languages: ['bash', 'brainfuck', 'c', 'elixir', 'erlang', 'golfscript', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'racket', 'rust', 'typescript', 'whitespace'],
     initialLanguage: 'haskell',
     starter: `powmod :: Int -> Int -> Int -> Int

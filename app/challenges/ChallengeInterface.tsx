@@ -1,10 +1,10 @@
 import { Tabs } from 'radix-ui';
-import Markdown from 'react-markdown';
 
 // Components
 import PreviousSubmissionsTable from '@/app/challenges/PreviousSubmissionsTable';
 import ChallengeScoreboard from '@/app/ChallengeScoreboard';
 import PolyglotChallengeInterface from '@/app/challenges/PolyglotChallengeInterface';
+import StyledMarkdown from '@/components/StyledMarkdown';
 
 // Utils
 import type { ChallengeData } from '@/util/challenges';
@@ -17,9 +17,9 @@ export default function ChallengeInterface(props: ChallengeData) {
                 <h1 className="text-3xl font-bold mb-4">
                     {props.name}
                 </h1>
-                <div className="markdown">
-                    <Markdown>{props.description}</Markdown>
-                </div>
+                <StyledMarkdown className="text-sm">
+                    {props.description}
+                </StyledMarkdown>
 
                 {props.type === 'polyglot' ? (
                     <PolyglotChallengeInterface {...props} />

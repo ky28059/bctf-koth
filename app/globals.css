@@ -155,7 +155,7 @@
 }
 
 .markdown {
-    p {
+    > p {
         @apply my-3;
     }
 
@@ -175,7 +175,7 @@
         @apply text-blue-400 hover:underline;
     }
 
-    code {
+    > code, * > code {
         @apply bg-black/30 px-1.5 py-0.5 opacity-75 rounded-sm;
     }
 
