@@ -118,7 +118,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                     {submissions[current]?.score.length > 0 && (
                         <>score: <span className="text-primary">{submissions[current]?.score[0]}</span> ({submissions[current]?.score[1]}), </>
                     )}
-                    time: <span className="text-primary">{submissions[current]?.ts}</span>
+                    time: <span className="text-primary">{submissions[current]?.ts as unknown as string}</span>
                 </div>
 
                 {submissions[current]?.error ? (

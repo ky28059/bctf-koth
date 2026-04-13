@@ -1,7 +1,7 @@
 import type { Status } from '@/generated/prisma/enums';
 
 
-export default function SubmissionStatusIndicator(props: { status: Status, error?: string }) {
+export default function SubmissionStatusIndicator(props: { status: Status, error?: string | null }) {
     return props.status === 'QUEUED' ? (
         <span className="bg-amber-500/20 text-amber-500 rounded-full text-xs px-1.5 py-0.5">
             In queue

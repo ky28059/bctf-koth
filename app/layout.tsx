@@ -7,6 +7,7 @@ import Header from '@/app/Header';
 import ToastProvider from '@/components/ToastProvider';
 
 import './globals.css';
+import 'katex/dist/katex.min.css'
 
 
 const inter = Inter({ subsets: ['latin'] });
