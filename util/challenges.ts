@@ -35,7 +35,7 @@ The second line contains $b$ ($50 \\leq b \\leq 100$).
 The third line contains $c$ ($100 \\leq c \\leq 999$).
 
 ### Output
-Output a single integer equal to $a^b \\mod c$. Overflow resilience will be tested!`,
+Output a single integer equal to $a^b \\mod c$.`,
     languages: ['bash', 'c', 'elixir', 'erlang', 'golfscript', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'scheme', 'rust', 'typescript', 'whitespace', 'zig'],
     initialLanguage: 'haskell',
     starter: `powmod :: Int -> Int -> Int -> Int
