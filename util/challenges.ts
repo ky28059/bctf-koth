@@ -25,7 +25,7 @@ export const challenges: ChallengeData[] = [{
 \`\`\`
 [bash, zig, C, elixir, erlang, golfscript, haskell, J, java, julia, lua, odin, perl, python 0, scheme, rust, typescript, whitespace]
 \`\`\`
-(for exact versions / compilers / docker images, a sample runner is attached below). In each language,
+(for exact versions / compilers / docker images, a sample runner is attached below). In each language, the program should:
 
 ### Input
 The first line contains $a$ ($10 \\leq a \\leq 999$).
@@ -50,9 +50,23 @@ main =
   print $ powmod a b c`
 }, {
     type: 'special',
-    name: 'Pickle golf',
+    name: 'Pickelang golf',
     id: 'pickle',
-    description: '...'
+    description: `pickelang is an esolang that uses the stack-based pickle virtual machine for evaluation; turing
+completeness is achieved by recursive pickle functionality using the \`BINPERSID\` opcode, \`add\`, and \`getitem\` functions
+(a sample runner is attached below).
+
+Submit the shortest pickelang payload that passes 5 test cases specified below (240s timeout, 100MB memory limit).
+
+\`struct.pack\` and \`struct.unpack\` are given for convenience.
+
+### Input
+The input is a single string in the format \`[A, B, C]\` ($2 \\leq A < 2^{15}, 1 \\leq B < 2^{15}, 2^{15} \\leq C < 2^{16}$)
+and can be retrieved using the \`input\` function.
+
+### Output
+Output a single integer equal to $A^B \\mod C$. This can be done by stopping the outermost unpickler evaluation with
+$A^B \\mod C$ on the top of the stack.`
 }, {
     type: 'polyglot',
     name: 'Shell polyglot',
