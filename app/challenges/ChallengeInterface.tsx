@@ -4,6 +4,7 @@ import { Tabs } from 'radix-ui';
 import PreviousSubmissionsTable from '@/app/challenges/PreviousSubmissionsTable';
 import ChallengeScoreboard from '@/app/ChallengeScoreboard';
 import PolyglotChallengeInterface from '@/app/challenges/PolyglotChallengeInterface';
+import SpecialChallengeInterface from '@/app/challenges/SpecialChallengeInterface';
 import StyledMarkdown from '@/components/StyledMarkdown';
 
 // Utils
@@ -24,7 +25,7 @@ export default function ChallengeInterface(props: ChallengeData) {
                 {props.type === 'polyglot' ? (
                     <PolyglotChallengeInterface {...props} />
                 ) : (
-                    <div>...</div>
+                    <SpecialChallengeInterface {...props} />
                 )}
 
                 <h2 className="font-bold text-xl mt-12 mb-3">
