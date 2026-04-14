@@ -2,7 +2,7 @@ export type ChallengeData = PolyglotChallengeData | SpecialChallengeData;
 
 type BaseChallengeData = {
     name: string,
-    id: 'poly' | 'pickle' | 'shell',
+    id: 'poly' | 'pickle' | 'bf' | 'compcov',
     description: string
 }
 
@@ -50,7 +50,7 @@ main =
   print $ powmod a b c`
 }, {
     type: 'special',
-    name: 'Pickelang golf',
+    name: 'Pickelang',
     id: 'pickle',
     description: `pickelang is an esolang that uses the stack-based pickle virtual machine for evaluation; turing
 completeness is achieved by recursive pickle functionality using the \`BINPERSID\` opcode, \`add\`, and \`getitem\` functions
@@ -68,6 +68,23 @@ and can be retrieved using the \`input\` function.
 Output a single integer equal to $A^B \\mod C$. This can be done by stopping the outermost unpickler evaluation with
 $A^B \\mod C$ on the top of the stack.`
 }, {
+    type: 'special',
+    name: 'Brainfuck golf',
+    id: 'bf',
+    description: '...'
+}, {
+    type: 'polyglot',
+    name: 'Compiler coverage',
+    id: 'compcov',
+    description: '...',
+    languages: ['cpp'],
+    initialLanguage: 'cpp',
+    starter: `#include <iostream>
+
+int main() {
+    std::cout << "Hello world!" << std::endl;
+}`
+} /*, {
     type: 'polyglot',
     name: 'Shell polyglot',
     id: 'shell',
@@ -75,4 +92,4 @@ $A^B \\mod C$ on the top of the stack.`
     languages: ["bash", "ash", "fish", "rc", "nushell", "powershell", "zsh", "ysh", "elvish", "ksh", "xonsh"],
     initialLanguage: 'bash',
     starter: 'echo hi'
-}];
+} */];

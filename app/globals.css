@@ -175,7 +175,7 @@
         @apply text-blue-400 hover:underline;
     }
 
-    > code, * > code {
+    > code, > p > code, > h1 > code, > h2 > code, > h3 > code, a > code {
         @apply bg-black/30 px-1.5 py-0.5 opacity-75 rounded-sm;
     }
 

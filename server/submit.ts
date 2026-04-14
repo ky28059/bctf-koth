@@ -14,7 +14,8 @@ import { challenges } from '@/util/challenges';
 const challSchema = Type.Union([
     Type.Literal('poly'), // TODO: autogen?
     Type.Literal('pickle'),
-    Type.Literal('shell'),
+    Type.Literal('bf'),
+    Type.Literal('compcov'),
 ]);
 const submitSchema = Type.Object({
     body: Type.String(),

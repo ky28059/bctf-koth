@@ -83,23 +83,25 @@ export default function PolyglotChallengeInterface(props: PolyglotChallengeData)
                 {code.length} characters ({language})
             </p>
 
-            <div className="mt-1 grid grid-cols-5 text-sm text-primary select-none"> {/* TODO */}
-                {props.languages.toSorted().map((l) => (
-                    <div className="flex gap-1" key={l}>
-                        <input
-                            id={l}
-                            type="checkbox"
-                            checked={submitLanguages.has(l)}
-                            onChange={(e) => setSubmitLanguage(l, e.target.checked)}
-                        />
-                        <label htmlFor={l}>{l}</label>
-                    </div>
-                ))}
-            </div>
+            {props.languages.length > 1 && (
+                <div className="mt-1 grid grid-cols-5 text-sm text-primary select-none"> {/* TODO */}
+                    {props.languages.toSorted().map((l) => (
+                        <div className="flex gap-1" key={l}>
+                            <input
+                                id={l}
+                                type="checkbox"
+                                checked={submitLanguages.has(l)}
+                                onChange={(e) => setSubmitLanguage(l, e.target.checked)}
+                            />
+                            <label htmlFor={l}>{l}</label>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             <button
                 className="cursor-pointer bg-blue-500 text-white rounded mt-4 px-3 py-1.5 disabled:opacity-50 transition duration-100"
-                disabled={pending}
+                disabled={submitLanguages.size === 0 || pending}
                 onClick={submit}
             >
                 Submit

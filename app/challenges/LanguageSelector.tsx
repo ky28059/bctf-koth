@@ -1,5 +1,6 @@
 import 'prismjs/components/prism-python';
 import 'prismjs/components/prism-c';
+import 'prismjs/components/prism-cpp';
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-rust';
 import 'prismjs/components/prism-elixir';
@@ -89,6 +90,11 @@ const languages = [{
     name: "c",
     highlight: true,
     icon: 'c.png',
+    invert: false
+}, {
+    name: 'cpp',
+    highlight: true,
+    icon: 'cpp.svg',
     invert: false
 }, {
     name: "odin",
