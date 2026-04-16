@@ -21,6 +21,9 @@ export default function ChallengeInterface(props: ChallengeData) {
                 <StyledMarkdown className="text-sm">
                     {props.description}
                 </StyledMarkdown>
+                <p className="text-xs text-primary">
+                    Author: {props.author}
+                </p>
 
                 {props.type === 'polyglot' ? (
                     <PolyglotChallengeInterface {...props} />

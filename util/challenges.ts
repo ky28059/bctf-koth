@@ -3,6 +3,7 @@ export type ChallengeData = PolyglotChallengeData | SpecialChallengeData;
 export type ChallengeId = 'poly' | 'pickle' | 'bf' | 'compcov';
 type BaseChallengeData = {
     name: string,
+    author: string,
     id: ChallengeId,
     description: string
 }
@@ -21,6 +22,7 @@ export type SpecialChallengeData = BaseChallengeData & {
 export const challenges: ChallengeData[] = [{
     type: 'polyglot',
     name: 'Polyglot',
+    author: 'oh_word',
     id: 'poly',
     description: `Write a polyglot that compiles / runs in as many of the following languages as possible:
 \`\`\`
@@ -52,6 +54,7 @@ main =
 }, {
     type: 'special',
     name: 'Pickelang',
+    author: 'quasar098',
     id: 'pickle',
     description: `pickelang is an esolang that uses the stack-based pickle virtual machine for evaluation; turing
 completeness is achieved by recursive pickle functionality using the \`BINPERSID\` opcode, \`add\`, and \`getitem\` functions
@@ -71,11 +74,13 @@ $A^B \\mod C$ on the top of the stack.`
 }, {
     type: 'special',
     name: 'Brainfuck golf',
+    author: 'oh_word',
     id: 'bf',
     description: '...'
 }, {
     type: 'polyglot',
     name: 'Compiler coverage',
+    author: 'pawnlord',
     id: 'compcov',
     description: '...',
     languages: ['cpp'],
