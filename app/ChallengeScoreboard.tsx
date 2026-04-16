@@ -35,6 +35,7 @@ export default function ChallengeScoreboard(props: { id: string, className?: str
                     rank={i + 1}
                     name={e.name}
                     score={e.score}
+                    id={e.id}
                     key={e.id}
                 />
             ))}
