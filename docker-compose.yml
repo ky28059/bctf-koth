@@ -1,0 +1,14 @@
+services:
+  koth_backend:
+    container_name: koth_backend
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+#    networks:
+#      - infra
+#networks:
+#  infra:
+#    external: true

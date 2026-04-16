@@ -20,7 +20,7 @@ export type FastifyInstance = typeof fastify;
 async function start() {
     await fastify.register(fastifyCookie);
     await fastify.register(fastifyCors, {
-        origin: ['http://localhost:3000'],
+        origin: ['http://localhost:3000'], // TODO
         credentials: true
     });
     await fastify.register(fastifySSE);
@@ -31,7 +31,7 @@ async function start() {
     await fastify.register(submit);
     await fastify.register(scoreboard);
 
-    await fastify.listen({ port: 8000 });
+    await fastify.listen({ port: 8000, host: '0.0.0.0' });
 }
 
 void start();

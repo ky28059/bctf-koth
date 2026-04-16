@@ -1,0 +1,8 @@
+.git
+.idea
+.next
+node_modules
+.gitignore
+LICENSE
+README.md
+Dockerfile
