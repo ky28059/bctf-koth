@@ -46,7 +46,7 @@ export default function routes(fastify: FastifyInstance) {
 
         // `zstd` compress all special challenge payloads
         const encoded = challenges.find(c => c.id === chall)!.type === 'special'
-            ? (await zstdCompress(body)).toBase64()
+            ? (await zstdCompress(body)).toString('base64') // .toBase64() not supported until node 25
             : btoa(body);
 
         // Store submission in DB, broadcast to all SSE streams
@@ -66,7 +66,7 @@ export default function routes(fastify: FastifyInstance) {
             }
         });
         listeners[chall].get(profile.data.id)?.forEach((c) => {
-            c.send({ data: { type: 'new', submission } satisfies NewSubmissionMessage })
+            c.send({ data: { type: 'new', submission: serialize(submission) } satisfies NewSubmissionMessage })
         });
 
         submitPayloadToRunner(chall, profile.data.id, submission);
@@ -100,7 +100,7 @@ export default function routes(fastify: FastifyInstance) {
             }
         });
         await res.sse.send({
-            data: { type: 'all', submissions } satisfies AllSubmissionsMessage
+            data: { type: 'all', submissions: submissions.map(serialize) } satisfies AllSubmissionsMessage
         });
 
         const s = listeners[chall].get(profile.data.id); // TODO: clean up
@@ -113,19 +113,41 @@ export default function routes(fastify: FastifyInstance) {
     })
 }
 
+// TODO: replace with type assertion?
+export function serialize(s: Submission): SerializedSubmission {
+    return {
+        ...s,
+        tests: s.tests as [string, string][] | null,
+        ts: s.ts.toISOString()
+    }
+}
+
 export type SubmissionMessage = AllSubmissionsMessage | NewSubmissionMessage | UpdateSubmissionMessage;
+
+export type SerializedSubmission = {
+    body: string
+    id: string
+    status: Status
+    score: number[]
+    languages: string[]
+    error: string | null
+    tests: [string, string][] | null
+    ts: string
+    challId: string
+    userId: string
+}
 
 export type AllSubmissionsMessage = {
     type: 'all',
-    submissions: Submission[]
+    submissions: SerializedSubmission[]
 }
 
 export type NewSubmissionMessage = {
     type: 'new',
-    submission: Submission
+    submission: SerializedSubmission
 }
 
 export type UpdateSubmissionMessage = {
     type: 'update',
-    submission: Submission
+    submission: SerializedSubmission
 }

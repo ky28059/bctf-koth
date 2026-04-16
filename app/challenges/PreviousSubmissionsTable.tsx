@@ -10,8 +10,7 @@ import CopyCodeBlock from '@/components/CopyCodeBlock';
 import SubmissionStatusIndicator from '@/app/challenges/SubmissionStatusIndicator';
 
 // Utils
-import type { SubmissionMessage } from '@/server/submit';
-import type { Submission } from '@/generated/prisma/client';
+import type { SerializedSubmission, SubmissionMessage } from '@/server/submit';
 
 
 type PreviousSubmissionsTableProps = {
@@ -19,7 +18,7 @@ type PreviousSubmissionsTableProps = {
 }
 
 export default function PreviousSubmissionsTable(props: PreviousSubmissionsTableProps) {
-    const [submissions, setSubmissions] = useState<Submission[]>([]);
+    const [submissions, setSubmissions] = useState<SerializedSubmission[]>([]);
     const [current, setCurrent] = useState(0);
     const [open, setOpen] = useState(false);
 
@@ -89,8 +88,8 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                                 )}
                             </div>
                             <div className="table-cell px-2 text-primary">
-                                {DateTime.fromISO(s.ts as unknown as string).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS)}
-                            </div>{/* TODO: fix serialization typing later */}
+                                {DateTime.fromISO(s.ts).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS)}
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -118,7 +117,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                     {submissions[current]?.score.length > 0 && (
                         <>score: <span className="text-primary">{submissions[current]?.score[0]}</span> ({submissions[current]?.score[1]}), </>
                     )}
-                    time: <span className="text-primary">{submissions[current]?.ts as unknown as string}</span>
+                    time: <span className="text-primary">{submissions[current]?.ts}</span>
                 </div>
 
                 {submissions[current]?.error ? (
@@ -135,13 +134,13 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                             Test case {i + 1}
                         </h3>
                         <CopyCodeBlock className="text-sm mb-1">
-                            {(test as string[])[0].trim()}
+                            {test[0].trim()}
                         </CopyCodeBlock>
                         <h3 className="text-xs text-primary my-0.5">
                             Checker output:
                         </h3>
                         <CopyCodeBlock className="text-sm">
-                            {(test as string[])[1].trim()}
+                            {test[1].trim()}
                         </CopyCodeBlock>
                     </div>
                 ))}

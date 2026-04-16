@@ -52,14 +52,6 @@ export default function routes(fastify: FastifyInstance) {
     }, async (req, res) => {
         const chall = req.params.chall;
 
-        // const token = req.cookies[AUTH_COOKIE_NAME]; // TODO
-        // if (!token)
-        //     return res.code(401).send({ msg: 'Missing auth token' });
-        //
-        // const profile = await getMyProfile(token);
-        // if (profile.kind !== 'goodUserData')
-        //     return res.code(401).send({ msg: 'Invalid auth token' });
-
         res.sse.keepAlive();
 
         const entries = Object.entries(scoreboard).map(([id, scores]) => ({ name: names[id], id, score: scores[chall] }));

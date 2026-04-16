@@ -2,7 +2,7 @@ import { Submission, Status } from '@/generated/prisma/client';
 import { prisma } from '@/util/prisma';
 
 // Utils
-import { listeners, UpdateSubmissionMessage } from '@/server/submit';
+import { listeners, serialize, UpdateSubmissionMessage } from '@/server/submit';
 import { ChallengeId, challenges } from '@/util/challenges';
 import { updateUserScore } from '@/server/scoreboard';
 
@@ -39,7 +39,7 @@ async function handleRunnerMessage(chall: ChallengeId, e: MessageEvent) {
                 data: { status: Status.TESTING }
             });
             listeners[chall].get(msg.team)?.forEach((c) => {
-                c.send({ data: { type: 'update', submission: s1 } satisfies UpdateSubmissionMessage })
+                c.send({ data: { type: 'update', submission: serialize(s1) } satisfies UpdateSubmissionMessage })
             });
             break;
 
@@ -54,7 +54,7 @@ async function handleRunnerMessage(chall: ChallengeId, e: MessageEvent) {
                 }
             });
             listeners[chall].get(msg.team)?.forEach((c) => {
-                c.send({ data: { type: 'update', submission: s2 } satisfies UpdateSubmissionMessage })
+                c.send({ data: { type: 'update', submission: serialize(s2) } satisfies UpdateSubmissionMessage })
             });
             await updateUserScore(msg.team, chall, msg.score);
             break;
