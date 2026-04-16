@@ -1,31 +1,48 @@
 import type { FastifyInstance } from '@/server/index';
 import type { SSEReplyInterface } from '@fastify/sse';
-import { Status, Submission } from '@/generated/prisma/client';
 import { Type } from '@sinclair/typebox';
 
 // Utils
 import { prisma } from '@/util/prisma';
-import { getMyProfile } from '@/util/profile';
 import { challSchema } from '@/server/submit';
-import { AUTH_COOKIE_NAME } from '@/util/config';
 import { ChallengeId, challenges } from '@/util/challenges';
+import { names } from '@/server/names';
 
 
-const scores: Record<string, { name: string, scores: UserScores }> = {};
+const scoreboard: Record<string, UserScores> = {};
 
 export const listeners = Object.fromEntries(challenges.map((c) => [c.id, new Set<SSEReplyInterface>()]));
 
 export async function initScoreboard() {
     const users = await prisma.user.findMany();
     for (const user of users) {
-        if (!user.top) continue;
-        scores[user.id] = {
-            name: user.name,
-            // @ts-ignore
-            scores: Object.fromEntries(challenges.map((c) => [c.id, user.top[c.id] ?? 0]))
-        };
+        names[user.id] = user.name;
+        // @ts-ignore
+        scoreboard[user.id] = Object.fromEntries(challenges.map((c) => [c.id, user?.top[c.id] ?? [0, 0]]))
     }
-    console.log(scores);
+}
+
+export async function updateUserScore(id: string, chall: ChallengeId, score: [number, number]) {
+    if (!scoreboard[id]) {
+        // @ts-ignore
+        scoreboard[id] = Object.fromEntries(challenges.map((c) => [c.id, c.id === chall ? score : [0, 0]]));
+        listeners[chall].forEach((c) => {
+            c.send({ data: { type: 'new', entry: { name: names[id], id, score } } satisfies NewEntryMessage })
+        });
+    } else {
+        const old = scoreboard[id][chall];
+        if (old[0] > score[0] || (old[0] === score[0] && old[1] >= score[1])) return;
+
+        scoreboard[id][chall] = score;
+        listeners[chall].forEach((c) => {
+            c.send({ data: { type: 'update', entry: { name: names[id], id, score } } satisfies UpdateEntryMessage })
+        });
+    }
+
+    await prisma.user.update({
+        where: { id },
+        data: { top: scoreboard[id] }
+    });
 }
 
 export default function routes(fastify: FastifyInstance) {
@@ -45,7 +62,7 @@ export default function routes(fastify: FastifyInstance) {
 
         res.sse.keepAlive();
 
-        const entries = Object.entries(scores).map(([id, e]) => ({ name: e.name, id, score: e.scores[chall] }));
+        const entries = Object.entries(scoreboard).map(([id, scores]) => ({ name: names[id], id, score: scores[chall] }));
         await res.sse.send({
             data: { type: 'all', entries } satisfies AllEntriesMessage
         });

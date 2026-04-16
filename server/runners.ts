@@ -1,7 +1,10 @@
 import { Submission, Status } from '@/generated/prisma/client';
 import { prisma } from '@/util/prisma';
+
+// Utils
 import { listeners, UpdateSubmissionMessage } from '@/server/submit';
-import { challenges } from '@/util/challenges';
+import { ChallengeId, challenges } from '@/util/challenges';
+import { updateUserScore } from '@/server/scoreboard';
 
 
 const runners: Record<string, WebSocket> = {};
@@ -22,7 +25,7 @@ export function submitPayloadToRunner(chall: string, team: string, submission: S
     } satisfies RunnerRequest));
 }
 
-async function handleRunnerMessage(chall: string, e: MessageEvent) {
+async function handleRunnerMessage(chall: ChallengeId, e: MessageEvent) {
     const msg = JSON.parse(e.data) as RunnerResponse;
     console.log(chall, 'received from runner', msg);
 
@@ -53,6 +56,7 @@ async function handleRunnerMessage(chall: string, e: MessageEvent) {
             listeners[chall].get(msg.team)?.forEach((c) => {
                 c.send({ data: { type: 'update', submission: s2 } satisfies UpdateSubmissionMessage })
             });
+            await updateUserScore(msg.id, chall, msg.score);
             break;
     }
 }

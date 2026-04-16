@@ -6,7 +6,9 @@ import fastifySSE from '@fastify/sse';
 
 // Routes
 import { initRunnerConnections } from '@/server/runners';
+import { initScoreboard } from '@/server/scoreboard';
 import submit from './submit';
+import scoreboard from './scoreboard';
 
 
 const fastify = Fastify({
@@ -25,9 +27,11 @@ async function start() {
 
     // Routes
     await initRunnerConnections();
+    await initScoreboard();
     await fastify.register(submit);
+    await fastify.register(scoreboard);
 
-    await fastify.listen({ port: 8000 })
+    await fastify.listen({ port: 8000 });
 }
 
 void start();
