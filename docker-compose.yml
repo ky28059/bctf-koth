@@ -7,8 +7,8 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
-#    networks:
-#      - infra
-#networks:
-#  infra:
-#    external: true
+    networks:
+      - koth
+networks:
+  koth:
+    external: true
