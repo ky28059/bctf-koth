@@ -1,8 +1,9 @@
 export type ChallengeData = PolyglotChallengeData | SpecialChallengeData;
 
+export type ChallengeId = 'poly' | 'pickle' | 'bf' | 'compcov';
 type BaseChallengeData = {
     name: string,
-    id: 'poly' | 'pickle' | 'bf' | 'compcov',
+    id: ChallengeId,
     description: string
 }
 

@@ -11,7 +11,7 @@ import { AUTH_COOKIE_NAME } from '@/util/config';
 import { challenges } from '@/util/challenges';
 
 
-const challSchema = Type.Union([
+export const challSchema = Type.Union([
     Type.Literal('poly'), // TODO: autogen?
     Type.Literal('pickle'),
     Type.Literal('bf'),
@@ -25,8 +25,7 @@ const submitSchema = Type.Object({
 
 export type SubmitPayload = Static<typeof submitSchema>;
 
-export const listeners: Record<string, Map<string, Set<SSEReplyInterface>>> = {};
-challenges.forEach((c) => listeners[c.id] = new Map());
+export const listeners = Object.fromEntries(challenges.map((c) => [c.id, new Map<string, Set<SSEReplyInterface>>()]));
 
 export default function routes(fastify: FastifyInstance) {
     fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
@@ -46,10 +45,11 @@ export default function routes(fastify: FastifyInstance) {
                 user: {
                     connectOrCreate: {
                         where: { id: profile.data.id },
-                        create: { id: profile.data.id }
+                        create: { id: profile.data.id, name: profile.data.name }
                     }
                 },
-                chall: { connect: { id: chall } },
+                challId: chall,
+                // chall: { connect: { id: chall } },
                 status: Status.QUEUED,
                 body: btoa(body),
                 languages

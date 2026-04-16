@@ -9,28 +9,29 @@ datasource db {
 
 model User {
   id          String       @id
+  name        String
   submissions Submission[]
   top         Json?
 }
 
-model Challenge {
-  id          String       @id
-  submissions Submission[]
-}
+// model Challenge {
+//   id          String       @id
+//   submissions Submission[]
+// }
 
 model Submission {
-  id        String    @id @default(uuid(7))
+  id        String   @id @default(uuid(7))
   status    Status
   body      String
-  languages String[]  @default([])
-  score     Int[]     @default([])
+  languages String[] @default([])
+  score     Int[]    @default([])
   error     String?
   tests     Json?
-  ts        DateTime  @default(now())
+  ts        DateTime @default(now())
   challId   String
-  chall     Challenge @relation(fields: [challId], references: [id])
+  // chall     Challenge @relation(fields: [challId], references: [id])
   userId    String
-  user      User      @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 enum Status {
