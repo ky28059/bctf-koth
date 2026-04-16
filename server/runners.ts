@@ -1,14 +1,20 @@
 import { Submission, Status } from '@/generated/prisma/client';
 import { prisma } from '@/util/prisma';
 import { listeners, UpdateSubmissionMessage } from '@/server/submit';
+import { challenges } from '@/util/challenges';
 
 
-const ws = new WebSocket('ws://localhost:5000');
-ws.onmessage = handleRunnerMessage.bind(null, 'poly');
+const runners: Record<string, WebSocket> = {};
+
+export async function initRunnerConnections() {
+    for (const c of challenges) {
+        runners[c.id] = new WebSocket('ws://localhost:5000'); // TODO
+        runners[c.id].onmessage = handleRunnerMessage.bind(null, 'poly');
+    }
+}
 
 export function submitPayloadToRunner(chall: string, team: string, submission: Submission) {
-    // TODO: ws map by chall
-    ws.send(JSON.stringify({
+    runners[chall].send(JSON.stringify({
         id: submission.id,
         payload: submission.body,
         team,

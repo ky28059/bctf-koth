@@ -6,7 +6,7 @@ import { Static, Type } from '@sinclair/typebox';
 // Utils
 import { prisma } from '@/util/prisma';
 import { getMyProfile } from '@/util/profile';
-import { submitPayloadToRunner } from '@/server/websocket';
+import { submitPayloadToRunner } from '@/server/runners';
 import { AUTH_COOKIE_NAME } from '@/util/config';
 import { challenges } from '@/util/challenges';
 

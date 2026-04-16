@@ -5,6 +5,7 @@ import fastifyCors from '@fastify/cors';
 import fastifySSE from '@fastify/sse';
 
 // Routes
+import { initRunnerConnections } from '@/server/runners';
 import submit from './submit';
 
 
@@ -23,6 +24,7 @@ async function start() {
     await fastify.register(fastifySSE);
 
     // Routes
+    await initRunnerConnections();
     await fastify.register(submit);
 
     await fastify.listen({ port: 8000 })
