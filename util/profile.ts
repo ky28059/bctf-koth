@@ -1,8 +1,6 @@
 'use server'
 
-import type { BadTokenResponse, RateLimitResponse, UserNotFoundResponse } from '@/util/errors';
-import { cookies } from 'next/headers';
-import { AUTH_COOKIE_NAME } from '@/util/config';
+import type { BadTokenResponse, UserNotFoundResponse } from '@/util/errors';
 
 
 export type ProfileData = {
@@ -50,76 +48,4 @@ export async function getMyProfile(token: string): Promise<ProfileResponse<MyPro
         headers: { 'Authorization': `Bearer ${token}` }
     });
     return res.json();
-}
-
-type UpdateUserResponse = {
-    kind: 'goodUserUpdate',
-    message: 'Your account was successfully updated',
-    data: {
-        user: {
-            name: string,
-            email: string,
-            division: string
-        }
-    }
-}
-
-export type UpdateProfilePayload = {
-    name?: string,
-    division?: string
-}
-export async function updateProfile(payload: UpdateProfilePayload) {
-    const c = await cookies();
-
-    const token = c.get(AUTH_COOKIE_NAME)?.value;
-    if (!token)
-        return { error: 'Not authenticated.' };
-
-    const res: UpdateUserResponse | RateLimitResponse = await (await fetch(`${process.env.API_BASE}/users/me`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(payload)
-    })).json();
-
-    if (res.kind === 'badRateLimit')
-        return { error: `You are doing this too fast! Try again in ${res.data.timeLeft} ms.` };
-
-    return { ok: true };
-}
-
-type UpdateEmailResponse = {
-    kind: 'goodVerifySent',
-    message: 'The account verification email was sent.',
-    data: null
-}
-
-type DivisionNotAllowedResponse = {
-    kind: 'badEmailChangeDivision',
-    message: 'You are not allowed to stay in your division with this email.',
-    data: null
-}
-
-export async function updateEmail(email: string) {
-    const c = await cookies();
-
-    const token = c.get(AUTH_COOKIE_NAME)?.value;
-    if (!token)
-        return { error: 'Not authenticated.' };
-
-    const emailRes: UpdateEmailResponse | DivisionNotAllowedResponse = await (await fetch(`${process.env.API_BASE}/users/me/auth/email`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ email })
-    })).json();
-
-    if (emailRes.kind !== 'goodVerifySent')
-        return { error: emailRes.message };
-
-    return { ok: true };
 }
