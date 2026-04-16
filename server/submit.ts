@@ -9,6 +9,7 @@ import { getMyProfile } from '@/util/profile';
 import { submitPayloadToRunner } from '@/server/runners';
 import { AUTH_COOKIE_NAME } from '@/util/config';
 import { challenges } from '@/util/challenges';
+import { names } from '@/server/names';
 
 
 export const challSchema = Type.Union([
@@ -77,6 +78,9 @@ export default function routes(fastify: FastifyInstance) {
         const profile = await getMyProfile(token);
         if (profile.kind !== 'goodUserData')
             return res.code(401).send({ msg: 'Invalid auth token' });
+
+        // Make sure name mapping is up to date
+        names[profile.data.id] = profile.data.name;
 
         res.sse.keepAlive();
 

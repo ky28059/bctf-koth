@@ -34,7 +34,10 @@ export default function ChallengeInterface(props: ChallengeData) {
                 <PreviousSubmissionsTable id={props.id} />
             </div>
 
-            <ChallengeScoreboard className="w-64 border-l border-tertiary flex-none max-h-screen overflow-y-auto sticky top-0" />
+            <ChallengeScoreboard
+                className="w-64 border-l border-tertiary flex-none max-h-screen overflow-y-auto sticky top-0"
+                id={props.id}
+            />
         </Tabs.Content>
     )
 }

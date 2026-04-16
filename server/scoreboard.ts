@@ -18,7 +18,7 @@ export async function initScoreboard() {
     for (const user of users) {
         names[user.id] = user.name;
         // @ts-ignore
-        scoreboard[user.id] = Object.fromEntries(challenges.map((c) => [c.id, user?.top[c.id] ?? [0, 0]]))
+        scoreboard[user.id] = Object.fromEntries(challenges.map((c) => [c.id, user.top?.[c.id] ?? [0, 0]]))
     }
 }
 
@@ -73,7 +73,7 @@ export default function routes(fastify: FastifyInstance) {
 }
 
 type UserScores = { [key in ChallengeId]: [number, number] };
-type ScoreboardEntry = { name: string, id: string, score: [number, number] };
+export type ScoreboardEntry = { name: string, id: string, score: [number, number] };
 
 export type ScoreboardMessage = AllEntriesMessage | NewEntryMessage | UpdateEntryMessage;
 

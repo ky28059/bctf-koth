@@ -19,13 +19,13 @@ export default function Home() {
 
             <div className="flex max-h-screen divide-x divide-tertiary">
                 {challenges.map((c) => (
-                    <div key={c.name} className="flex flex-col w-full">
+                    <div key={c.id} className="flex flex-col w-full">
                         <p className="text-center text-secondary font-mono text-sm font-bold mb-1 pt-1">
                             {c.name}
                         </p>
                         <ChallengeScoreboard
                             className="overflow-y-auto"
-                            key={c.name}
+                            id={c.id}
                         />
                     </div>
                 ))}

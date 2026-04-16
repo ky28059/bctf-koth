@@ -56,7 +56,7 @@ async function handleRunnerMessage(chall: ChallengeId, e: MessageEvent) {
             listeners[chall].get(msg.team)?.forEach((c) => {
                 c.send({ data: { type: 'update', submission: s2 } satisfies UpdateSubmissionMessage })
             });
-            await updateUserScore(msg.id, chall, msg.score);
+            await updateUserScore(msg.team, chall, msg.score);
             break;
     }
 }
