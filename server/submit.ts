@@ -1,5 +1,7 @@
 import type { FastifyInstance } from '@/server/index';
 import type { SSEReplyInterface } from '@fastify/sse';
+import zlib from 'node:zlib';
+import { promisify } from 'node:util';
 import { Status, Submission } from '@/generated/prisma/client';
 import { Static, Type } from '@sinclair/typebox';
 
@@ -10,6 +12,8 @@ import { submitPayloadToRunner } from '@/server/runners';
 import { AUTH_COOKIE_NAME } from '@/util/config';
 import { challenges } from '@/util/challenges';
 import { names } from '@/server/names';
+
+const zstdCompress = promisify(zlib.zstdCompress);
 
 
 export const challSchema = Type.Union([
@@ -40,6 +44,11 @@ export default function routes(fastify: FastifyInstance) {
         if (profile.kind !== 'goodUserData')
             return res.code(401).send({ msg: 'Invalid auth token' });
 
+        // `zstd` compress all special challenge payloads
+        const encoded = challenges.find(c => c.id === chall)!.type === 'special'
+            ? (await zstdCompress(body)).toBase64()
+            : btoa(body);
+
         // Store submission in DB, broadcast to all SSE streams
         const submission = await prisma.submission.create({
             data: {
@@ -52,7 +61,7 @@ export default function routes(fastify: FastifyInstance) {
                 challId: chall,
                 // chall: { connect: { id: chall } },
                 status: Status.QUEUED,
-                body: btoa(body),
+                body: encoded,
                 languages
             }
         });
