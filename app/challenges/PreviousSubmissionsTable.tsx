@@ -52,49 +52,49 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
 
     return (
         <>
-            <table className="w-full border border-tertiary text-sm">
-                <thead>
-                <tr className="border-b border-tertiary text-primary text-sm">
-                    <th className="px-2 w-12 text-right">#</th>
-                    <th className="py-1 px-2 w-48 text-left font-semibold">Submission ID</th>
-                    <th className="px-2 w-24 text-left font-semibold">Length</th>
-                    <th className="px-2 w-20 text-left font-semibold">Status</th>
-                    <th className="px-2 w-36 text-left font-semibold">Score</th>
-                    <th className="px-2 text-left font-semibold">Time</th>
-                </tr>
-                </thead>
-                <tbody>
-                {submissions.toReversed().map((s, i) => (
-                    <tr key={s.id} className="bg-black/10">
-                        <td className="text-secondary text-right px-2">
-                            {submissions.length - i}
-                        </td>
-                        <td className="px-2 py-1">
-                            <button
-                                // href={`/submission/${s.id}`}
-                                className="cursor-pointer text-blue-400 hover:underline line-clamp-1 text-left"
-                                onClick={() => openModalToSubmission(submissions.length - i - 1)}
-                            >
-                                {s.id}
-                            </button>
-                        </td>
-                        <td className="px-2">{atob(s.body).length}</td>
-                        <td className="px-2">
-                            <SubmissionStatusIndicator status={s.status} error={s.error} />
-                        </td>
-                        <td className="px-2">
-                            {s.score[0] ?? '-'}
-                            {s.score.length > 1 && (
-                                <span className="text-secondary ml-1">({s.score[1]})</span>
-                            )}
-                        </td>
-                        <td className="px-2 text-primary">
-                            {DateTime.fromISO(s.ts as unknown as string).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS)}
-                        </td>{/* TODO: fix serialization typing later */}
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            <div className="table w-full border border-tertiary text-sm rounded-lg overflow-hidden">
+                <div className="table-header-group">
+                    <div className="table-row text-primary text-sm [&>*]:border-b [&>*]:border-tertiary/50">
+                        <div className="table-cell px-2 w-10 text-right">#</div>
+                        <div className="table-cell py-1 px-2 w-48 text-left font-semibold">Submission ID</div>
+                        <div className="table-cell px-2 w-24 text-left font-semibold">Length</div>
+                        <div className="table-cell px-2 w-20 text-left font-semibold">Status</div>
+                        <div className="table-cell px-2 w-36 text-left font-semibold">Score</div>
+                        <div className="table-cell px-2 text-left font-semibold">Time</div>
+                    </div>
+                </div>
+                <div className="table-row-group bg-black/30">
+                    {submissions.toReversed().map((s, i) => (
+                        <div key={s.id} className="table-row">
+                            <div className="table-cell text-secondary text-right px-2">
+                                {submissions.length - i}
+                            </div>
+                            <div className="table-cell px-2 py-1">
+                                <button
+                                    // href={`/submission/${s.id}`}
+                                    className="cursor-pointer text-blue-400 hover:underline line-clamp-1 text-left"
+                                    onClick={() => openModalToSubmission(submissions.length - i - 1)}
+                                >
+                                    {s.id}
+                                </button>
+                            </div>
+                            <div className="table-cell px-2">{atob(s.body).length}</div>
+                            <div className="table-cell px-2">
+                                <SubmissionStatusIndicator status={s.status} error={s.error} />
+                            </div>
+                            <div className="table-cell px-2">
+                                {s.score[0] ?? '-'}
+                                {s.score.length > 1 && (
+                                    <span className="text-secondary ml-1">({s.score[1]})</span>
+                                )}
+                            </div>
+                            <div className="table-cell px-2 text-primary">
+                                {DateTime.fromISO(s.ts as unknown as string).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS)}
+                            </div>{/* TODO: fix serialization typing later */}
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             <CenteredModal
                 className="bg-midnight shadow-2xl max-w-3xl max-h-[80%] overflow-y-auto rounded-lg px-8 py-6"
