@@ -6,6 +6,7 @@ import { ChangeEvent, useState } from 'react';
 import type { SpecialChallengeData } from '@/util/challenges';
 import type { SubmitPayload } from '@/server/submit';
 import { useToast } from '@/contexts/ToastContext';
+import { BACKEND_URL } from '@/util/config';
 
 
 export default function SpecialChallengeInterface(props: SpecialChallengeData) {
@@ -21,7 +22,7 @@ export default function SpecialChallengeInterface(props: SpecialChallengeData) {
         if (!bytes) return;
         setPending(true);
 
-        const res = await fetch('http://localhost:8000/submit', {
+        const res = await fetch(`${BACKEND_URL}/submit`, {
             method: 'POST',
             body: JSON.stringify({
                 body: bytes.toBase64(),

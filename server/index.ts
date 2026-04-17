@@ -10,6 +10,9 @@ import { initScoreboard } from '@/server/scoreboard';
 import submit from './submit';
 import scoreboard from './scoreboard';
 
+// Utils
+import { FRONTEND_URL } from '@/util/config';
+
 
 const fastify = Fastify({
     logger: true
@@ -20,7 +23,7 @@ export type FastifyInstance = typeof fastify;
 async function start() {
     await fastify.register(fastifyCookie);
     await fastify.register(fastifyCors, {
-        origin: ['http://localhost:3000'], // TODO
+        origin: [FRONTEND_URL],
         credentials: true
     });
     await fastify.register(fastifySSE);

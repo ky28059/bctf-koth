@@ -12,6 +12,7 @@ import SubmissionDownloadLink from '@/app/challenges/SubmissionDownloadLink';
 
 // Utils
 import type { SerializedSubmission, SubmissionMessage } from '@/server/submit';
+import { BACKEND_URL } from '@/util/config';
 
 
 type PreviousSubmissionsTableProps = {
@@ -25,7 +26,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const events = new EventSource(`http://localhost:8000/sse/submissions/${props.id}`, {
+        const events = new EventSource(`${BACKEND_URL}/sse/submissions/${props.id}`, {
             withCredentials: true
         });
 

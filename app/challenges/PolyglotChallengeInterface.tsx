@@ -11,6 +11,7 @@ import LanguageSelector from '@/app/challenges/LanguageSelector';
 import type { PolyglotChallengeData } from '@/util/challenges';
 import type { SubmitPayload } from '@/server/submit';
 import { useToast } from '@/contexts/ToastContext';
+import { BACKEND_URL } from '@/util/config';
 
 
 export default function PolyglotChallengeInterface(props: PolyglotChallengeData) {
@@ -26,7 +27,7 @@ export default function PolyglotChallengeInterface(props: PolyglotChallengeData)
     async function submit() {
         setPending(true);
 
-        const res = await fetch('http://localhost:8000/submit', {
+        const res = await fetch(`${BACKEND_URL}/submit`, {
             method: 'POST',
             body: JSON.stringify({
                 body: btoa(code),
