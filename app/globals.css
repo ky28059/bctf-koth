@@ -204,11 +204,11 @@
     }
 
     hr {
-        @apply my-4 border-black/20;
+        @apply my-4 border-primary/20;
     }
 
     blockquote {
-        @apply border-l-4 border-black/20 pl-4;
+        @apply border-l-4 border-primary/20 pl-4 opacity-50;
     }
 }
 

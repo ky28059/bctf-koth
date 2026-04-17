@@ -33,11 +33,11 @@ export const challenges: ChallengeData[] = [{
 (for exact versions / compilers / docker images, a sample runner is attached below). In each language, the program should:
 
 ### Input
-The first line contains $a$ ($10 \\leq a \\leq 999$).
+The first line contains $a$ ($2^8 \\leq a < 2^{16}$).
 
-The second line contains $b$ ($50 \\leq b \\leq 100$).
+The second line contains $b$ ($2^6 \\leq b < 2^8$).
 
-The third line contains $c$ ($100 \\leq c \\leq 999$).
+The third line contains $c$ ($2^{10} \\leq c < 2^{12}$).
 
 ### Output
 Output a single integer equal to $a^b \\mod c$.`,
@@ -63,7 +63,7 @@ main =
 completeness is achieved by recursive pickle functionality using the \`BINPERSID\` opcode, \`add\`, and \`getitem\` functions
 (a sample runner is attached below).
 
-Submit the shortest pickelang payload that passes 5 test cases specified below (240s timeout, 100MB memory limit).
+Submit the shortest pickelang payload that passes 5 test cases specified below (100s timeout, 100MB memory limit).
 
 \`struct.pack\` and \`struct.unpack\` are given for convenience.
 
@@ -80,7 +80,20 @@ $A^B \\mod C$ on the top of the stack.`
     author: 'oh_word',
     id: 'bf',
     runnerUrl: 'ws://brainfuck-outer-1:5001',
-    description: '...'
+    description: `Write the shortest Brainfuck program that computes \`powmod\` as specified (a sample runner
+is attached below).
+
+> Note: You are in charge of converting strings to ints and ints to strings. Don’t be lazy now.
+
+### Input
+The first line contains $a$ ($10 \\leq a \\leq 999$).
+
+The second line contains $b$ ($50 \\leq b \\leq 100$).
+
+The third line contains $c$ ($100 \\leq c \\leq 999$).
+
+### Output
+Output a single integer equal to $a^b \\mod c$.`
 }, {
     type: 'polyglot',
     name: 'Compiler coverage',
