@@ -10,6 +10,7 @@ import { useToast } from '@/contexts/ToastContext';
 
 export default function SpecialChallengeInterface(props: SpecialChallengeData) {
     const [bytes, setBytes] = useState<Uint8Array | null>(null);
+    const [dragging, setDragging] = useState(false);
 
     const [pending, setPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -54,8 +55,11 @@ export default function SpecialChallengeInterface(props: SpecialChallengeData) {
         <>
             <input
                 type="file"
-                className="mt-8 w-full flex items-center justify-center rounded-md border-2 border-dashed border-tertiary px-12 py-12 text-secondary file:mr-3 file:text-primary file:font-medium bg-[repeating-linear-gradient(135deg,#40404011,#40404011_10px,transparent_10px,transparent_20px)]"
+                className={'mt-8 w-full flex items-center justify-center rounded-md border-2 border-dashed px-12 py-12 text-secondary file:mr-3 file:text-primary file:font-medium bg-[repeating-linear-gradient(135deg,#40404011,#40404011_10px,transparent_10px,transparent_20px)] transition duration-100 ' + (dragging ? 'border-blue-400' : 'border-tertiary')}
                 onChange={handleFile}
+                onDragEnter={() => setDragging(true)}
+                onDragLeave={() => setDragging(false)}
+                onDrop={() => setDragging(false)}
             />
             <p className="mt-1 text-sm text-secondary">
                 {bytes?.length ?? 0} bytes
