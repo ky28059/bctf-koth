@@ -10,6 +10,9 @@ import StyledMarkdown from '@/components/StyledMarkdown';
 // Utils
 import type { ChallengeData } from '@/util/challenges';
 
+// Icons
+import { FaDownload } from 'react-icons/fa6';
+
 
 export default function ChallengeInterface(props: ChallengeData) {
     return (
@@ -24,6 +27,21 @@ export default function ChallengeInterface(props: ChallengeData) {
                 <p className="text-xs text-primary">
                     Author: {props.author}
                 </p>
+
+                {props.files && props.files.length > 0 && (
+                    <div className="flex gap-2 mt-2">
+                        {props.files.map((file, i) => (
+                            <a
+                                className="bg-white/10 hover:bg-white/15 transition duration-200 px-5 py-3 rounded-sm text-sm text-primary font-semibold flex gap-2 items-center"
+                                href={`/handouts/${file}`}
+                                key={file + i}
+                            >
+                                <FaDownload />
+                                {file}
+                            </a>
+                        ))}
+                    </div>
+                )}
 
                 {props.type === 'polyglot' ? (
                     <PolyglotChallengeInterface {...props} />

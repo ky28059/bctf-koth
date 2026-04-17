@@ -6,7 +6,8 @@ type BaseChallengeData = {
     author: string,
     runnerUrl: string,
     id: ChallengeId,
-    description: string
+    description: string,
+    files?: string[],
 }
 
 export type PolyglotChallengeData = BaseChallengeData & {
@@ -26,6 +27,7 @@ export const challenges: ChallengeData[] = [{
     author: 'oh_word',
     id: 'poly',
     runnerUrl: 'ws://polyglot-outer-1:5000',
+    files: ['polyglot.zip'],
     description: `Write a polyglot that compiles / runs in as many of the following languages as possible:
 \`\`\`
 [bash, zig, C, elixir, erlang, fish, golfscript, haskell, J, java, julia, lua, odin, perl, python 0, scheme, rust, typescript, whitespace]
@@ -59,6 +61,7 @@ main =
     author: 'quasar098',
     id: 'pickle',
     runnerUrl: 'ws://remote-server-1:5000',
+    files: ['pickelang.zip'],
     description: `pickelang is an esolang that uses the stack-based pickle virtual machine for evaluation; turing
 completeness is achieved by recursive pickle functionality using the \`BINPERSID\` opcode, \`add\`, and \`getitem\` functions
 (a sample runner is attached below).
@@ -80,6 +83,7 @@ $A^B \\mod C$ on the top of the stack.`
     author: 'oh_word',
     id: 'bf',
     runnerUrl: 'ws://brainfuck-outer-1:5001',
+    files: ['brainfuck.zip'],
     description: `Write the shortest Brainfuck program that computes \`powmod\` as specified (a sample runner
 is attached below).
 
