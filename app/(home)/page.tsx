@@ -11,9 +11,9 @@ export default function Home() {
                     b01lers CTF KOTH dashboard
                 </h1>
                 <p className="text-sm text-primary">
-                    As part of b01lers CTF 2026, [...]! Authenticate with your rCTF account, then go to{' '}
+                    Welcome to the b01lers CTF 2026 KOTH dashboard! Authenticate with your rCTF account, then go to{' '}
                     <Link href="/challenges" className="text-blue-400 hover:underline">/challenges</Link>{' '}
-                    to view the king-of-the-hill challenges. Each challenge is worth 500 points, scored by [...]
+                    to view the king-of-the-hill challenges.
                 </p>
             </div>
 
