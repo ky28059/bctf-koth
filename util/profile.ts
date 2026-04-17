@@ -1,6 +1,7 @@
 'use server'
 
 import type { BadTokenResponse, UserNotFoundResponse } from '@/util/errors';
+import { API_BASE } from '@/util/config';
 
 
 export type ProfileData = {
@@ -36,7 +37,7 @@ type ProfileResponse<T extends ProfileData> = {
 }
 
 export async function getMyProfile(token: string): Promise<ProfileResponse<MyProfileData> | BadTokenResponse> {
-    const res = await fetch(`${process.env.API_BASE}/users/me`, {
+    const res = await fetch(`${API_BASE}/users/me`, {
         headers: { 'Authorization': `Bearer ${token}` }
     });
     return res.json();

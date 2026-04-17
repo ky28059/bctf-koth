@@ -1,6 +1,9 @@
+export const SCOREBOARD_PAGE_SIZE = 100;
+
 export const FRONTEND_URL = 'https://koth.b01lersc.tf';
 export const BACKEND_URL = 'https://koth-blocker.b01lersc.tf';
 export const CTF_URL = 'https://b01lersc.tf';
+export const API_BASE = 'https://rctf-bctf.b01lers.net/api/v1';
 export const AUTH_COOKIE_NAME = 'ctf_clearance';
 
 
@@ -27,6 +30,6 @@ type ConfigResponse = {
 }
 
 export async function getConfig(): Promise<ConfigResponse> {
-    const res = await fetch(`${process.env.API_BASE}/integrations/client/config`);
+    const res = await fetch(`${API_BASE}/integrations/client/config`);
     return res.json();
 }
