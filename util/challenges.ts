@@ -98,12 +98,12 @@ The third line contains $c$ ($100 \\leq c \\leq 999$).
 
 ### Output
 Output a single integer equal to $a^b \\mod c$.`
-}, {
+} /*, {
     type: 'polyglot',
     name: 'Compiler coverage',
     author: 'pawnlord',
     id: 'compcov',
-    runnerUrl: 'ws://remote-server-1:5000', // TODO
+    runnerUrl: '...',
     description: '...',
     languages: ['cpp'],
     initialLanguage: 'cpp',
@@ -112,7 +112,7 @@ Output a single integer equal to $a^b \\mod c$.`
 int main() {
     std::cout << "Hello world!" << std::endl;
 }`
-} /*, {
+}, {
     type: 'polyglot',
     name: 'Shell polyglot',
     id: 'shell',

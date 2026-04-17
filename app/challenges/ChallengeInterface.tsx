@@ -34,6 +34,7 @@ export default function ChallengeInterface(props: ChallengeData) {
                             <a
                                 className="bg-white/10 hover:bg-white/15 transition duration-200 px-5 py-3 rounded-sm text-sm text-primary font-semibold flex gap-2 items-center"
                                 href={`/handouts/${file}`}
+                                download={file}
                                 key={file + i}
                             >
                                 <FaDownload />
