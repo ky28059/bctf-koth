@@ -14,7 +14,6 @@ export default function SpecialChallengeInterface(props: SpecialChallengeData) {
     const [dragging, setDragging] = useState(false);
 
     const [pending, setPending] = useState(false);
-    const [error, setError] = useState<string | null>(null);
 
     const { toast } = useToast();
 
@@ -38,9 +37,8 @@ export default function SpecialChallengeInterface(props: SpecialChallengeData) {
         setPending(false);
 
         if (!res.ok)
-            return setError(data.msg);
+            return toast({ success: false, title: `Error submitting to ${props.name}`, description: data.msg })
 
-        setError(null);
         toast({ success: true, title: `Successfully submitted to ${props.name}`, description: 'Your submission will be scored soon.' })
     }
 
@@ -73,9 +71,6 @@ export default function SpecialChallengeInterface(props: SpecialChallengeData) {
             >
                 Submit
             </button>
-            {error && (
-                <p className="text-sm text-red-500 mt-1">{error}</p>
-            )}
         </>
     )
 }

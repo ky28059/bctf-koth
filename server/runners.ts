@@ -2,7 +2,7 @@ import { Submission, Status } from '@/generated/prisma/client';
 import { prisma } from '@/util/prisma';
 
 // Utils
-import { listeners, serialize, UpdateSubmissionMessage } from '@/server/submit';
+import { listeners, rateLimit, serialize, UpdateSubmissionMessage } from '@/server/submit';
 import { ChallengeId, challenges } from '@/util/challenges';
 import { updateUserScore } from '@/server/scoreboard';
 
@@ -57,6 +57,9 @@ async function handleRunnerMessage(chall: ChallengeId, e: MessageEvent) {
                 c.send({ data: { type: 'update', submission: serialize(s2) } satisfies UpdateSubmissionMessage })
             });
             await updateUserScore(msg.team, chall, msg.score);
+
+            const inflight = rateLimit.get(msg.team)![chall];
+            inflight.delete(msg.id);
             break;
     }
 }

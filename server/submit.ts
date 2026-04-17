@@ -20,7 +20,6 @@ export const challSchema = Type.Union([
     Type.Literal('poly'), // TODO: autogen?
     Type.Literal('pickle'),
     Type.Literal('bf'),
-    Type.Literal('compcov'),
 ]);
 const submitSchema = Type.Object({
     body: Type.String(),
@@ -31,6 +30,7 @@ const submitSchema = Type.Object({
 export type SubmitPayload = Static<typeof submitSchema>;
 
 export const listeners = Object.fromEntries(challenges.map((c) => [c.id, new Map<string, Set<SSEReplyInterface>>()]));
+export const rateLimit = new Map<string, Record<string, Set<string>>>();
 
 export default function routes(fastify: FastifyInstance) {
     fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
@@ -55,6 +55,14 @@ export default function routes(fastify: FastifyInstance) {
         if (profile.kind !== 'goodUserData')
             return res.code(401).send({ msg: 'Invalid auth token' });
 
+        // Hackily rate-limit by team
+        if (!rateLimit.has(profile.data.id))
+            rateLimit.set(profile.data.id, Object.fromEntries(challenges.map(c => [c.id, new Set()])));
+
+        const inflight = rateLimit.get(profile.data.id)![chall];
+        if (inflight.size > 0)
+            return res.code(400).send({ msg: 'You are submitting too fast!' });
+
         // `zstd` compress all special challenge payloads
         const encoded = challData.type === 'special'
             ? (await zstdCompress(Buffer.from(body, 'base64'))).toString('base64') // .toBase64() not supported until node 25
@@ -76,6 +84,7 @@ export default function routes(fastify: FastifyInstance) {
                 languages
             }
         });
+        inflight.add(submission.id);
         listeners[chall].get(profile.data.id)?.forEach((c) => {
             c.send({ data: { type: 'new', submission: serialize(submission) } satisfies NewSubmissionMessage })
         });
