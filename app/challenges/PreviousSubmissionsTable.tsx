@@ -59,7 +59,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                     <div className="table-row text-primary text-sm [&>*]:border-b [&>*]:border-tertiary/50">
                         <div className="table-cell px-2 w-10 text-right">#</div>
                         <div className="table-cell py-1 px-2 w-48 text-left font-semibold">Submission ID</div>
-                        <div className="table-cell px-2 w-24 text-left font-semibold">Length</div>
+                        {/* <div className="table-cell px-2 w-24 text-left font-semibold">Length</div> */}
                         <div className="table-cell px-2 w-20 text-left font-semibold">Status</div>
                         <div className="table-cell px-2 w-36 text-left font-semibold">Score</div>
                         <div className="table-cell px-2 text-left font-semibold">Time</div>
@@ -80,7 +80,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                                     {s.id}
                                 </button>
                             </div>
-                            <div className="table-cell px-2">{atob(s.body).length}</div>
+                            {/* <div className="table-cell px-2">{atob(s.body).length}</div> */}
                             <div className="table-cell px-2">
                                 <SubmissionStatusIndicator status={s.status} error={s.error} />
                             </div>
