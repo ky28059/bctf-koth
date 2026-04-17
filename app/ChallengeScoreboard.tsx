@@ -12,8 +12,8 @@ export default function ChallengeScoreboard(props: { id: string, className?: str
     // Sort by primary score, then by secondary score
     // TODO: display tertiary tiebreak on time
     function sortEntries(a: ScoreboardEntry, b: ScoreboardEntry) {
-        const [a1, a2] = a.score;
-        const [b1, b2] = b.score;
+        const [a1, b1] = a.score;
+        const [a2, b2] = b.score;
         return a2 - a1 || b2 - b1;
     }
 
