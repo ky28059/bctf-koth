@@ -36,6 +36,17 @@ export default function routes(fastify: FastifyInstance) {
     fastify.post('/submit', { schema: { body: submitSchema } }, async (req, res) => {
         const { body, chall, languages } = req.body;
 
+        const challData = challenges.find(c => c.id === chall)!;
+        if (challData.type === 'polyglot' && (!languages || languages.length < 1))
+            return res.code(400).send({ msg: 'Code challenge needs non-empty `languages` field' });
+
+        // TODO: better way of doing this?
+        try {
+            atob(body);
+        } catch {
+            return res.code(400).send({ msg: 'Body needs to be b64 encoded' });
+        }
+
         const token = req.cookies[AUTH_COOKIE_NAME];
         if (!token)
             return res.code(401).send({ msg: 'Missing auth token' });
@@ -45,7 +56,7 @@ export default function routes(fastify: FastifyInstance) {
             return res.code(401).send({ msg: 'Invalid auth token' });
 
         // `zstd` compress all special challenge payloads
-        const encoded = challenges.find(c => c.id === chall)!.type === 'special'
+        const encoded = challData.type === 'special'
             ? (await zstdCompress(Buffer.from(body, 'base64'))).toString('base64') // .toBase64() not supported until node 25
             : body;
 

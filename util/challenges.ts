@@ -26,7 +26,7 @@ export const challenges: ChallengeData[] = [{
     id: 'poly',
     description: `Write a polyglot that compiles / runs in as many of the following languages as possible:
 \`\`\`
-[bash, zig, C, elixir, erlang, golfscript, haskell, J, java, julia, lua, odin, perl, python 0, scheme, rust, typescript, whitespace]
+[bash, zig, C, elixir, erlang, fish, golfscript, haskell, J, java, julia, lua, odin, perl, python 0, scheme, rust, typescript, whitespace]
 \`\`\`
 (for exact versions / compilers / docker images, a sample runner is attached below). In each language, the program should:
 
@@ -39,7 +39,7 @@ The third line contains $c$ ($100 \\leq c \\leq 999$).
 
 ### Output
 Output a single integer equal to $a^b \\mod c$.`,
-    languages: ['bash', 'c', 'elixir', 'erlang', 'golfscript', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'scheme', 'rust', 'typescript', 'whitespace', 'zig'],
+    languages: ['bash', 'c', 'elixir', 'erlang', 'golfscript', 'fish', 'haskell', 'j', 'java', 'julia', 'lua', 'odin', 'perl', 'python', 'scheme', 'rust', 'typescript', 'whitespace', 'zig'],
     initialLanguage: 'haskell',
     starter: `powmod :: Int -> Int -> Int -> Int
 powmod a 0 c = 1
