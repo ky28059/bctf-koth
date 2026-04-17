@@ -11,8 +11,8 @@ const runners: Record<string, WebSocket> = {};
 
 export async function initRunnerConnections() {
     for (const c of challenges) {
-        runners[c.id] = new WebSocket('ws://polyglot-outer-1:5000'); // TODO
-        runners[c.id].onmessage = handleRunnerMessage.bind(null, 'poly');
+        runners[c.id] = new WebSocket(c.runnerUrl);
+        runners[c.id].onmessage = handleRunnerMessage.bind(null, c.id);
     }
 }
 
