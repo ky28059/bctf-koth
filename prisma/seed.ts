@@ -8,10 +8,10 @@ import { challenges } from '@/util/challenges';
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
-export async function main() {
-    for (const c of challenges) {
-        await prisma.challenge.create({ data: { id: c.id } });
-    }
-}
+// export async function main() {
+//     for (const c of challenges) {
+//         await prisma.challenge.create({ data: { id: c.id } });
+//     }
+// }
 
-void main();
+// void main();
