@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 // Utils
-import { AUTH_COOKIE_NAME, CTF_URL } from '@/util/config';
+import { AUTH_COOKIE_NAME, CTF_URL, FRONTEND_URL } from '@/util/config';
 
 
 export async function logout() {
@@ -16,8 +16,8 @@ export async function logout() {
 
 export async function login() {
     const params = new URLSearchParams({
-        state: 'a', // TODO
-        redirect_uri: 'http://localhost:3000/auth'
+        state: 'a', // TODO?
+        redirect_uri: `${FRONTEND_URL}/auth`
     });
     return redirect(`${CTF_URL}/auth?${params}`);
 }

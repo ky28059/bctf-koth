@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react';
 import ChallengeScoreboardEntry from '@/app/ChallengeScoreboardEntry';
 import type { ScoreboardEntry, ScoreboardMessage } from '@/server/scoreboard';
+import { BACKEND_URL } from '@/util/config';
 
 
 export default function ChallengeScoreboard(props: { id: string, className?: string }) {
     const [entries, setEntries] = useState<ScoreboardEntry[]>([]);
 
     useEffect(() => {
-        const events = new EventSource(`http://localhost:8000/sse/scoreboard/${props.id}`);
+        const events = new EventSource(`${BACKEND_URL}/sse/scoreboard/${props.id}`);
 
         events.onmessage = (d) => {
             const msg: ScoreboardMessage = JSON.parse(d.data);
