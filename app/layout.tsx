@@ -8,6 +8,7 @@ import ToastProvider from '@/components/ToastProvider';
 
 import './globals.css';
 import 'katex/dist/katex.min.css'
+import { redirect } from 'next/navigation';
 
 
 const inter = Inter({ subsets: ['latin'] });
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
+    redirect('https://www.youtube.com/watch?v=CsCS5BOjdgk');
+
     return (
         <html
             lang="en"
