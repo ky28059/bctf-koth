@@ -18,8 +18,9 @@ export async function GET(req: NextRequest) {
 
     c.set(AUTH_COOKIE_NAME, token, {
         maxAge: 16070400,
-        sameSite: 'none',
-        secure: true
+        // sameSite: 'none',
+        // secure: true
+        domain: '.b01lersc.tf'
     });
 
     return NextResponse.redirect(new URL('/challenges', req.url));
