@@ -18,20 +18,20 @@ export async function initScoreboard() {
     for (const user of users) {
         names[user.id] = user.name;
         // @ts-ignore
-        scoreboard[user.id] = Object.fromEntries(challenges.map((c) => [c.id, user.top?.[c.id] ?? [0, 0]]))
+        scoreboard[user.id] = Object.fromEntries(challenges.map((c) => [c.id, user.top?.[c.id]]))
     }
 }
 
 export async function updateUserScore(id: string, chall: ChallengeId, score: [number, number]) {
     if (!scoreboard[id]) {
         // @ts-ignore
-        scoreboard[id] = Object.fromEntries(challenges.map((c) => [c.id, c.id === chall ? score : [0, 0]]));
+        scoreboard[id] = Object.fromEntries(challenges.map((c) => [c.id, c.id === chall ? score : null]));
         listeners[chall].forEach((c) => {
             c.send({ data: { type: 'new', entry: { name: names[id], id, score } } satisfies NewEntryMessage })
         });
     } else {
         const old = scoreboard[id][chall];
-        if (old[0] > score[0] || (old[0] === score[0] && old[1] >= score[1])) return;
+        if (old && (old[0] > score[0] || (old[0] === score[0] && old[1] >= score[1]))) return;
 
         scoreboard[id][chall] = score;
         listeners[chall].forEach((c) => {
@@ -54,7 +54,10 @@ export default function routes(fastify: FastifyInstance) {
 
         res.sse.keepAlive();
 
-        const entries = Object.entries(scoreboard).map(([id, scores]) => ({ name: names[id], id, score: scores[chall] }));
+        const entries = Object.entries(scoreboard)
+            .filter(([_, scores]) => scores[chall])
+            .map(([id, scores]) => ({ name: names[id], id, score: scores[chall]! }));
+
         await res.sse.send({
             data: { type: 'all', entries } satisfies AllEntriesMessage
         });
@@ -64,7 +67,7 @@ export default function routes(fastify: FastifyInstance) {
     })
 }
 
-type UserScores = { [key in ChallengeId]: [number, number] };
+type UserScores = { [key in ChallengeId]: [number, number] | null };
 export type ScoreboardEntry = { name: string, id: string, score: [number, number] };
 
 export type ScoreboardMessage = AllEntriesMessage | NewEntryMessage | UpdateEntryMessage;

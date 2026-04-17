@@ -85,8 +85,8 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                                 <SubmissionStatusIndicator status={s.status} error={s.error} />
                             </div>
                             <div className="table-cell px-2">
-                                {s.score[0] ?? '-'}
-                                {s.score.length > 1 && (
+                                {s.score[0] ? Math.abs(s.score[0]) : '-'}
+                                {s.score.length > 1 && s.score[1] !== 0 && (
                                     <span className="text-secondary ml-1">({s.score[1]})</span>
                                 )}
                             </div>
@@ -125,7 +125,7 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                         <>languages: [<span className="text-primary">{submissions[current].languages.join(', ')}</span>], </>
                     )}
                     {submissions[current]?.score.length > 0 && (
-                        <>score: <span className="text-primary">{submissions[current]?.score[0]}</span> ({submissions[current]?.score[1]}), </>
+                        <>score: <span className="text-primary">{Math.abs(submissions[current]?.score[0])}</span> ({submissions[current]?.score[1]}), </>
                     )}
                     time: <span className="text-primary">{submissions[current]?.ts}</span>
                 </div>

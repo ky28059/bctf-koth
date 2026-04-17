@@ -22,7 +22,7 @@ export default function ChallengeScoreboardEntry(props: ChallengeScoreboardEntry
             </p>
             <p>{props.name}</p>
             <p className="ml-auto text-primary">
-                {props.score[0]}
+                {Math.abs(props.score[0])}
                 {props.score[1] !== 0 && (
                     <span className="text-secondary ml-1">({props.score[1]})</span>
                 )}
