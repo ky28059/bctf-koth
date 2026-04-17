@@ -9,7 +9,7 @@ import { useToast } from '@/contexts/ToastContext';
 
 
 export default function SpecialChallengeInterface(props: SpecialChallengeData) {
-    const [payload, setPayload] = useState('');
+    const [bytes, setBytes] = useState<Uint8Array | null>(null);
 
     const [pending, setPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -17,12 +17,13 @@ export default function SpecialChallengeInterface(props: SpecialChallengeData) {
     const { toast } = useToast();
 
     async function submit() {
+        if (!bytes) return;
         setPending(true);
 
         const res = await fetch('http://localhost:8000/submit', {
             method: 'POST',
             body: JSON.stringify({
-                body: payload,
+                body: bytes.toBase64(),
                 chall: props.id
             } satisfies SubmitPayload),
             headers: {
@@ -41,16 +42,12 @@ export default function SpecialChallengeInterface(props: SpecialChallengeData) {
         toast({ success: true, title: `Successfully submitted to ${props.name}`, description: 'Your submission will be scored soon.' })
     }
 
-    function handleFile(e: ChangeEvent<HTMLInputElement>) {
+    async function handleFile(e: ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            if (typeof e.target?.result !== 'string') return;
-            setPayload(e.target.result);
-        }
-        reader.readAsText(file);
+        const buf = await file.bytes();
+        setBytes(buf);
     }
 
     return (
@@ -61,12 +58,12 @@ export default function SpecialChallengeInterface(props: SpecialChallengeData) {
                 onChange={handleFile}
             />
             <p className="mt-1 text-sm text-secondary">
-                {payload.length} characters
+                {bytes?.length ?? 0} bytes
             </p>
 
             <button
                 className="cursor-pointer bg-blue-500 text-white rounded mt-4 px-3 py-1.5 disabled:opacity-50 transition duration-100"
-                disabled={payload.length === 0 || pending}
+                disabled={!bytes || bytes.length === 0 || pending}
                 onClick={submit}
             >
                 Submit

@@ -34,7 +34,7 @@ export default function ChallengeInterface(props: ChallengeData) {
                 <h2 className="font-bold text-xl mt-12 mb-3">
                     Previous submissions
                 </h2>
-                <PreviousSubmissionsTable id={props.id} />
+                <PreviousSubmissionsTable id={props.id} type={props.type} />
             </div>
 
             <ChallengeScoreboard

@@ -8,13 +8,15 @@ import { Dialog } from 'radix-ui';
 import CenteredModal from '@/components/CenteredModal';
 import CopyCodeBlock from '@/components/CopyCodeBlock';
 import SubmissionStatusIndicator from '@/app/challenges/SubmissionStatusIndicator';
+import SubmissionDownloadLink from '@/app/challenges/SubmissionDownloadLink';
 
 // Utils
 import type { SerializedSubmission, SubmissionMessage } from '@/server/submit';
 
 
 type PreviousSubmissionsTableProps = {
-    id: string
+    id: string,
+    type: 'polyglot' | 'special'
 }
 
 export default function PreviousSubmissionsTable(props: PreviousSubmissionsTableProps) {
@@ -106,9 +108,16 @@ export default function PreviousSubmissionsTable(props: PreviousSubmissionsTable
                         {submissions[current]?.id}
                     </a>
                 </Dialog.Title>
-                <CopyCodeBlock language={submissions[current]?.languages[0]}>
-                    {submissions[current]?.body && atob(submissions[current].body)}
-                </CopyCodeBlock>
+                {props.type === 'polyglot' ? (
+                    <CopyCodeBlock language={submissions[current]?.languages[0]}>
+                        {submissions[current]?.body && atob(submissions[current].body)}
+                    </CopyCodeBlock>
+                ) : (
+                    <SubmissionDownloadLink
+                        id={submissions[current]?.id}
+                        body={submissions[current]?.body}
+                    />
+                )}
                 <div className="text-xs text-secondary mt-1 mb-2">
                     #{current + 1},{' '}
                     {submissions[current]?.languages.length > 0 && (

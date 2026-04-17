@@ -29,7 +29,7 @@ export default function PolyglotChallengeInterface(props: PolyglotChallengeData)
         const res = await fetch('http://localhost:8000/submit', {
             method: 'POST',
             body: JSON.stringify({
-                body: code,
+                body: btoa(code),
                 chall: props.id,
                 languages: [...submitLanguages]
             } satisfies SubmitPayload),
