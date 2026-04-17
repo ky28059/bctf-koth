@@ -16,7 +16,11 @@ export async function GET(req: NextRequest) {
     if (!token || !state)
         return NextResponse.redirect(new URL('/', req.url));
 
-    c.set(AUTH_COOKIE_NAME, token, { maxAge: 16070400 });
+    c.set(AUTH_COOKIE_NAME, token, {
+        maxAge: 16070400,
+        sameSite: 'none',
+        secure: true
+    });
 
     return NextResponse.redirect(new URL('/challenges', req.url));
 }
