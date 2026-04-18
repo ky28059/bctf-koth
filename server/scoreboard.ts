@@ -31,7 +31,7 @@ export async function updateUserScore(id: string, chall: ChallengeId, score: [nu
         });
     } else {
         const old = scoreboard[id][chall];
-        if (old && (old[0] > score[0] || (old[0] === score[0] && old[1] >= score[1]))) return;
+        if (old && old[0] !== 0 && (old[0] > score[0] || (old[0] === score[0] && old[1] >= score[1]))) return;
 
         scoreboard[id][chall] = score;
         listeners[chall].forEach((c) => {
