@@ -16,12 +16,12 @@ export default function ChallengeScoreboardEntry(props: ChallengeScoreboardEntry
             href={`${CTF_URL}/profile/${props.id}`}
             target="_blank"
         >
-            <p className="text-primary text-sm w-8 text-right pr-0.5">
+            <p className="text-primary text-sm w-8 flex-none text-right pr-0.5">
                 {props.rank}
                 <sup>{suffix(props.rank)}</sup>
             </p>
-            <p>{props.name}</p>
-            <p className="ml-auto text-primary">
+            <p className="text-sm py-0.5 line-clamp-1">{props.name}</p>
+            <p className="ml-auto text-primary text-sm">
                 {Math.abs(props.score[0])}
                 {props.score[1] !== 0 && (
                     <span className="text-secondary ml-1">({props.score[1]})</span>
