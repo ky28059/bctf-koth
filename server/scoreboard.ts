@@ -30,6 +30,8 @@ export async function updateUserScore(id: string, chall: ChallengeId, score: [nu
             c.send({ data: { type: 'new', entry: { name: names[id], id, score } } satisfies NewEntryMessage })
         });
     } else {
+        if (score[0] === 0) return;
+
         const old = scoreboard[id][chall];
         if (old && old[0] !== 0 && (old[0] > score[0] || (old[0] === score[0] && old[1] >= score[1]))) return;
 
