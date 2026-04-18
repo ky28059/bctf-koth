@@ -9,12 +9,14 @@ import { BACKEND_URL } from '@/util/config';
 export default function ChallengeScoreboard(props: { id: string, className?: string }) {
     const [entries, setEntries] = useState<ScoreboardEntry[]>([]);
 
-    // Sort by primary score, then by secondary score
+    // Sort by primary score, then by secondary score; explicitly push 0's (error vals) to the bottom.
     // TODO: display tertiary tiebreak on time
     function sortEntries(a: ScoreboardEntry, b: ScoreboardEntry) {
-        const [a1, b1] = a.score;
-        const [a2, b2] = b.score;
-        return a2 - a1 || b2 - b1;
+        const [a1, a2] = a.score;
+        const [b1, b2] = b.score;
+        if (a1 === 0) return 1;
+        if (b1 === 0) return -1;
+        return b1 - a1 || b2 - a2;
     }
 
     useEffect(() => {
