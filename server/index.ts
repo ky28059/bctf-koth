@@ -11,7 +11,7 @@ import submit from './submit';
 import scoreboard from './scoreboard';
 
 // Utils
-import { FRONTEND_URL } from '@/util/config';
+import { CTFConfig, FRONTEND_URL, getConfig } from '@/util/config';
 
 
 const fastify = Fastify({
@@ -20,6 +20,8 @@ const fastify = Fastify({
 
 export type FastifyInstance = typeof fastify;
 
+export let config: CTFConfig;
+
 async function start() {
     await fastify.register(fastifyCookie);
     await fastify.register(fastifyCors, {
@@ -27,6 +29,8 @@ async function start() {
         credentials: true
     });
     await fastify.register(fastifySSE);
+
+    config = (await getConfig()).data;
 
     // Routes
     await initRunnerConnections();

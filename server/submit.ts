@@ -1,4 +1,4 @@
-import type { FastifyInstance } from '@/server/index';
+import { config, type FastifyInstance } from '@/server/index';
 import type { SSEReplyInterface } from '@fastify/sse';
 import zlib from 'node:zlib';
 import { promisify } from 'node:util';
@@ -46,6 +46,13 @@ export default function routes(fastify: FastifyInstance) {
         } catch {
             return res.code(400).send({ msg: 'Body needs to be b64 encoded' });
         }
+
+        // Disallow submissions before / after CTF
+        const ts = new Date().getTime();
+        if (ts < config.startTime)
+            return res.code(400).send({ msg: 'The CTF has not started' });
+        if (ts > config.endTime)
+            return res.code(400).send({ msg: 'The CTF has ended' });
 
         const token = req.cookies[AUTH_COOKIE_NAME];
         if (!token)
