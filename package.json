@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "postinstall": "prisma generate",
-    "server": "tsx server/index.ts"
+    "server": "tsx server/index.ts",
+    "resolve": "tsx --env-file=.env scripts/resolve.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
